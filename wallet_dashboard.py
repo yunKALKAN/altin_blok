@@ -782,20 +782,20 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0f0f1a;--card:#1a1a2e;--accent:#00d2ff;--accent2:#7b2ff7;
-  --text:#e0e0e0;--text-dim:#8888aa;--green:#00e676;--red:#ff5252;
-  --border:#2a2a44;
+  --bg:#0a1a0a;--card:#112211;--accent:#00e676;--accent2:#69f0ae;
+  --text:#e0f0e0;--text-dim:#88aa88;--green:#00e676;--red:#ff5252;
+  --border:#1a3a1a;
 }
 body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline}
 
 .header{
-  background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);
+  background:linear-gradient(135deg,#0d1f0d 0%,#1a3a1a 100%);
   border-bottom:1px solid var(--border);padding:20px 32px;
   display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
 }
-.header h1{font-size:22px;background:linear-gradient(90deg,var(--accent),var(--accent2));
+.header h1{font-size:22px;background:linear-gradient(90deg,#00e676,#69f0ae);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .header .addr{font-size:13px;color:var(--text-dim);font-family:monospace}
 .header .badge{font-size:11px;padding:3px 10px;border-radius:20px;
@@ -819,14 +819,14 @@ table{width:100%;border-collapse:collapse}
 th,td{padding:12px 20px;text-align:left;font-size:14px}
 th{color:var(--text-dim);font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.5px;
   border-bottom:1px solid var(--border)}
-tr:hover{background:rgba(0,210,255,.04)}
+tr:hover{background:rgba(0,230,118,.06)}
 td:last-child{text-align:right}
 th:last-child{text-align:right}
 .token-icon{width:28px;height:28px;border-radius:50%;background:var(--border);
   display:inline-flex;align-items:center;justify-content:center;font-size:11px;
   font-weight:700;margin-right:10px;vertical-align:middle}
 .pct-bar{height:4px;border-radius:2px;background:var(--border);margin-top:4px;max-width:120px}
-.pct-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.pct-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#00e676,#69f0ae)}
 
 .chart-wrap{background:var(--card);border:1px solid var(--border);border-radius:14px;
   padding:20px;display:flex;flex-direction:column;align-items:center}
@@ -839,7 +839,7 @@ th:last-child{text-align:right}
 @keyframes spin{to{transform:rotate(360deg)}}
 .refresh-btn{background:none;border:1px solid var(--border);color:var(--accent);
   padding:6px 16px;border-radius:8px;cursor:pointer;font-size:13px;transition:all .2s}
-.refresh-btn:hover{background:rgba(0,210,255,.1);border-color:var(--accent)}
+.refresh-btn:hover{background:rgba(0,230,118,.15);border-color:var(--accent)}
 .loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;
   align-items:center;justify-content:center;flex-direction:column;gap:16px;z-index:100}
 .loading-overlay .spinner{width:40px;height:40px;border-width:3px}
@@ -906,7 +906,7 @@ th:last-child{text-align:right}
 
 <header class="header">
   <div>
-    <h1>Cüzdan İzleme Dashboard'u</h1>
+    <h1>KASA KOMUTA MERKEZİ</h1>
     <div class="addr" id="walletAddr">—</div>
   </div>
   <div style="display:flex;gap:10px;align-items:center">
@@ -918,6 +918,7 @@ th:last-child{text-align:right}
 <div class="tabs">
   <button class="tab-btn active" onclick="switchTab('kasa')">Kasa Özeti</button>
   <button class="tab-btn" onclick="switchTab('portfolio')">Portföy</button>
+  <button class="tab-btn" onclick="switchTab('guide')">Transfer Rehberi</button>
   <button class="tab-btn" onclick="switchTab('history')">İşlem Geçmişi</button>
 </div>
 
@@ -1067,6 +1068,153 @@ th:last-child{text-align:right}
       <h3>Portföy Dağılımı</h3>
       <div class="chart-container">
         <canvas id="donutChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="tab-guide" class="tab-content">
+  <div style="padding:24px 32px;max-width:900px">
+    <h2 style="color:var(--accent);margin-bottom:16px;font-size:20px">Transfer Rehberi — Adim Adim</h2>
+    <p style="color:var(--text-dim);margin-bottom:24px">Hedef Cüzdan: <code style="background:rgba(0,230,118,.15);padding:4px 8px;border-radius:6px;color:#69f0ae">0xF7bB2ea845b9e56aEf9E364d6Ae05Ea88236ca40</code></p>
+
+    <div class="kasa-card" style="margin-bottom:16px;border-left:4px solid #00e676">
+      <h3 style="color:#00e676;margin-bottom:8px">1. Ana Cüzdan ETH ($2,344)</h3>
+      <div style="font-size:13px;line-height:1.8">
+        <b>Site:</b> <a href="https://app.uniswap.org" target="_blank">MetaMask</a> veya kullandığın cüzdan<br>
+        <b>Ağ:</b> Ethereum Mainnet<br>
+        <b>Adim 1:</b> MetaMask aç → "Gönder" butonuna tıkla<br>
+        <b>Adim 2:</b> Adres: <code>0xF7bB2ea845b9e56aEf9E364d6Ae05Ea88236ca40</code><br>
+        <b>Adim 3:</b> Miktar: Tümü (gas ücreti için ~0.005 ETH bırak)<br>
+        <b>Adim 4:</b> Gas Fee ayarla → "Onayla" tıkla<br>
+        <b>Token:</b> ETH (~1.006 ETH)
+      </div>
+    </div>
+
+    <div class="kasa-card" style="margin-bottom:16px;border-left:4px solid #69f0ae">
+      <h3 style="color:#69f0ae;margin-bottom:8px">2. xixi — ZeroLend Çekme ($3,470)</h3>
+      <div style="font-size:13px;line-height:1.8">
+        <b>Site:</b> <a href="https://app.zerolend.xyz" target="_blank">https://app.zerolend.xyz</a><br>
+        <b>Ağ:</b> Linea / zkSync (hangi zincirdeyse)<br>
+        <b>Adim 1:</b> Cüzdanını bağla (xixi adresi: 0x54d8...ae53)<br>
+        <b>Adim 2:</b> "Dashboard" → "Withdraw" tıkla<br>
+        <b>Adim 3:</b> Önce borcu kapat (ezETH 0.5513 — "Repay" tıkla)<br>
+        <b>Adim 4:</b> Sonra teminatları çek: WETH (1.24), SolvBTC.m (0.011), USDC (804)<br>
+        <b>Adim 5:</b> Çekilen tokenleri hedef cüzdana gönder<br>
+        <b>Not:</b> Sağlık Oranı 2.37 — önce borcu kapat yoksa likidasyon riski var
+      </div>
+    </div>
+
+    <div class="kasa-card" style="margin-bottom:16px;border-left:4px solid #69f0ae">
+      <h3 style="color:#69f0ae;margin-bottom:8px">3. xixi — Silo Çekme ($585)</h3>
+      <div style="font-size:13px;line-height:1.8">
+        <b>Site:</b> <a href="https://app.silo.finance" target="_blank">https://app.silo.finance</a><br>
+        <b>Ağ:</b> Ethereum / Arbitrum<br>
+        <b>Adim 1:</b> Cüzdanını bağla → Dashboard<br>
+        <b>Adim 2:</b> Önce borcu kapat: WETH 0.4381 ("Repay")<br>
+        <b>Adim 3:</b> Teminatı çek: ezETH 0.6536 ("Withdraw")<br>
+        <b>Not:</b> Sağlık Oranı 1.42 — DÜşÜK! Önce mutlaka borcu kapat
+      </div>
+    </div>
+
+    <div class="kasa-card" style="margin-bottom:16px;border-left:4px solid #69f0ae">
+      <h3 style="color:#69f0ae;margin-bottom:8px">4. xixi — SoSoValue Çekme ($533)</h3>
+      <div style="font-size:13px;line-height:1.8">
+        <b>Site:</b> <a href="https://sosovalue.com" target="_blank">https://sosovalue.com</a><br>
+        <b>Adim 1:</b> Cüzdanını bağla → "My Portfolio"<br>
+        <b>Adim 2:</b> sMAG7.ssi → "Unstake" → MAG7.ssi al ($385)<br>
+        <b>Adim 3:</b> sSOSO → "Unstake" → SOSO al ($133)<br>
+        <b>Adim 4:</b> sMEME.ssi → "Unstake" ($15)<br>
+        <b>Adim 5:</b> Tokenleri swap et ve hedef cüzdana gönder
+      </div>
+    </div>
+
+    <div class="kasa-card" style="margin-bottom:16px;border-left:4px solid #69f0ae">
+      <h3 style="color:#69f0ae;margin-bottom:8px">5. xixi — Pendle V2 ($373)</h3>
+      <div style="font-size:13px;line-height:1.8">
+        <b>Site:</b> <a href="https://app.pendle.finance" target="_blank">https://app.pendle.finance</a><br>
+        <b>Ağ:</b> Ethereum<br>
+        <b>Adim 1:</b> Cüzdanını bağla → "Dashboard"<br>
+        <b>Adim 2:</b> LP pozisyonunu bul → "Remove Liquidity"<br>
+        <b>Adim 3:</b> ETH+PT-weETH havuzundan çık ($270)<br>
+        <b>Adim 4:</b> weETH+PT-weETH havuzundan çık ($103)<br>
+        <b>Adim 5:</b> PENDLE ödüllerini topla ("Claim")<br>
+        <b>Adim 6:</b> Tokenleri hedef cüzdana gönder
+      </div>
+    </div>
+
+    <div class="kasa-card" style="margin-bottom:16px;border-left:4px solid #69f0ae">
+      <h3 style="color:#69f0ae;margin-bottom:8px">6. xixi — ether.fi ($338)</h3>
+      <div style="font-size:13px;line-height:1.8">
+        <b>Site:</b> <a href="https://app.ether.fi" target="_blank">https://app.ether.fi</a><br>
+        <b>Adim 1:</b> Cüzdanını bağla<br>
+        <b>Adim 2:</b> weETHk → "Withdraw" ($269)<br>
+        <b>Adim 3:</b> sETHFI → "Unstake" ($35)<br>
+        <b>Adim 4:</b> weETH staking → "Unstake" ($24)<br>
+        <b>Adim 5:</b> Ödülleri topla (EIGEN, ETHFI, KERNEL vs.)<br>
+        <b>Adim 6:</b> Hedef cüzdana transfer et
+      </div>
+    </div>
+
+    <div class="kasa-card" style="margin-bottom:16px;border-left:4px solid #69f0ae">
+      <h3 style="color:#69f0ae;margin-bottom:8px">7. xixi — Aave V3 ($253)</h3>
+      <div style="font-size:13px;line-height:1.8">
+        <b>Site:</b> <a href="https://app.aave.com" target="_blank">https://app.aave.com</a><br>
+        <b>Ağ:</b> Ethereum<br>
+        <b>Adim 1:</b> Cüzdanını bağla → Dashboard<br>
+        <b>Adim 2:</b> Önce borcu kapat: wstETH 0.0511 ("Repay")<br>
+        <b>Adim 3:</b> WETH çek: 0.1086 WETH ("Withdraw")<br>
+        <b>Adim 4:</b> wstETH çek: 0.0510 wstETH ("Withdraw")<br>
+        <b>Adim 5:</b> Hedef cüzdana gönder
+      </div>
+    </div>
+
+    <div class="kasa-card" style="margin-bottom:16px;border-left:4px solid #69f0ae">
+      <h3 style="color:#69f0ae;margin-bottom:8px">8. xixi — Ethena ($122)</h3>
+      <div style="font-size:13px;line-height:1.8">
+        <b>Site:</b> <a href="https://app.ethena.fi" target="_blank">https://app.ethena.fi</a><br>
+        <b>Adim 1:</b> Cüzdanını bağla<br>
+        <b>Adim 2:</b> sUSDe → "Unstake" → 122.33 USDe al<br>
+        <b>Adim 3:</b> sENA → "Unstake" → 1.29 ENA al<br>
+        <b>Adim 4:</b> Hedef cüzdana gönder
+      </div>
+    </div>
+
+    <div class="kasa-card" style="margin-bottom:16px;border-left:4px solid #69f0ae">
+      <h3 style="color:#69f0ae;margin-bottom:8px">9. xixi — Stader ($99)</h3>
+      <div style="font-size:13px;line-height:1.8">
+        <b>Site:</b> <a href="https://www.staderlabs.com" target="_blank">https://www.staderlabs.com</a><br>
+        <b>Ağ:</b> BNB Chain<br>
+        <b>Adim 1:</b> Cüzdanını bağla → BNBx bölümü<br>
+        <b>Adim 2:</b> "Unstake" → 0.1578 BNB al ($99)<br>
+        <b>Adim 3:</b> BNB'yi hedef cüzdana gönder
+      </div>
+    </div>
+
+    <div class="kasa-card" style="margin-bottom:16px;border-left:4px solid #ffd54f">
+      <h3 style="color:#ffd54f;margin-bottom:8px">10. Diğer Küçük Pozisyonlar</h3>
+      <div style="font-size:13px;line-height:1.8">
+        <b>SyncSwap ($89):</b> <a href="https://syncswap.xyz" target="_blank">syncswap.xyz</a> → LP çık → token al<br>
+        <b>Karak ($86):</b> <a href="https://app.karak.network" target="_blank">karak.network</a> → mETH unstake<br>
+        <b>Radiant V2 ($85):</b> <a href="https://app.radiant.capital" target="_blank">radiant.capital</a> → borcu kapat → çek<br>
+        <b>Koi ($81):</b> LP çık + ödül topla<br>
+        <b>Mantle Reward ($70):</b> MNT unstake<br>
+        <b>Compound V3 ($70):</b> WETH çek<br>
+        <b>Cyber ($54):</b> CYBER çek<br>
+        <b>Layer3 ($42):</b> L3 unstake + ödül topla<br>
+        <b>Ve 20+ küçük pozisyon...</b>
+      </div>
+    </div>
+
+    <div class="kasa-card" style="margin-bottom:16px;border-left:4px solid #ff9100;background:linear-gradient(135deg,#1a1a0a,#2a2a0a)">
+      <h3 style="color:#ff9100;margin-bottom:8px">UYARI — Önemli Notlar</h3>
+      <div style="font-size:13px;line-height:1.8;color:#ffcc80">
+        <b>1.</b> Her işlem için gas ücreti gerekir — her zincirde biraz native token bırak (ETH, BNB, MATIC vs.)<br>
+        <b>2.</b> Lending pozisyonlarında ÖNCE borcu kapat, SONRA teminatı çek<br>
+        <b>3.</b> Silo sağlık oranı 1.42 — çok düşük, dikkatli ol<br>
+        <b>4.</b> Locked pozisyonlar (ZeroLend ZERO+WETH, Stargate STG) kilitli — süre dolmadan çekilemez<br>
+        <b>5.</b> Her çekimde slippage ayarına dikkat et (%0.5-1 arası)<br>
+        <b>6.</b> Büyük miktarları parça parça gönder, tek seferde gönderme
       </div>
     </div>
   </div>
