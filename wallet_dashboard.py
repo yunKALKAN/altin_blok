@@ -430,6 +430,11 @@ KASA_WALLETS = [
         "label": "Wombat Exchange",
         "chain": "BNB Chain",
     },
+    {
+        "address": "0x8894e0a0c962cb723c1976a4421c95949be2d4e3",
+        "label": "Binance Ana Kasa",
+        "chain": "BNB Chain + Ethereum",
+    },
 ]
 
 KASA_MULTICHAIN = {
@@ -724,6 +729,46 @@ KASA_SPECTRA_TOKEN = {
     "followers": 16,
 }
 
+KASA_BINANCE_MAIN = {
+    "address": "0x8894e0a0c962cb723c1976a4421c95949be2d4e3",
+    "label": "Binance Ana Kasa",
+    "total_usd": 665608303,
+    "chains": [
+        {"name": "BNB Chain", "usd_value": 532379293},
+        {"name": "Ethereum", "usd_value": 133223347},
+    ],
+    "top_tokens": [
+        {"symbol": "ETH", "chain": "BNB+ETH", "amount": 90271.90, "usd": 210256806},
+        {"symbol": "MOODENG", "chain": "BNB", "amount": 2700000000000, "usd": 133217980},
+        {"symbol": "BTCB", "chain": "BNB", "amount": 1118.56, "usd": 86278546},
+        {"symbol": "BNB", "chain": "BNB", "amount": 118214, "usd": 74049251},
+        {"symbol": "USD1", "chain": "BNB", "amount": 54157263, "usd": 54179672},
+        {"symbol": "XUSD", "chain": "BNB", "amount": 25436976, "usd": 25431889},
+        {"symbol": "币安人生", "chain": "BNB", "amount": 31476023, "usd": 11835134},
+        {"symbol": "OPN", "chain": "BNB", "amount": 57981327, "usd": 10007577},
+        {"symbol": "NIGHT", "chain": "BNB", "amount": 273423011, "usd": 9300730},
+        {"symbol": "$BANANA", "chain": "BNB", "amount": 958028629, "usd": 9126014},
+        {"symbol": "XRP", "chain": "BNB", "amount": 2675198, "usd": 3735111},
+        {"symbol": "KGST", "chain": "BNB", "amount": 284567410, "usd": 3258297},
+        {"symbol": "IOTA", "chain": "BNB", "amount": 56618128, "usd": 3232895},
+        {"symbol": "ZEC", "chain": "BNB", "amount": 8028.48, "usd": 2681914},
+        {"symbol": "SAHARA", "chain": "BNB", "amount": 107479420, "usd": 2433334},
+    ],
+    "defi": [
+        {"protocol": "PancakeSwap", "chain": "BSC", "usd": 3563, "detail": "35 LP havuzu"},
+        {"protocol": "Solv", "chain": "BSC", "usd": 345, "detail": "SolvBTC yield"},
+        {"protocol": "Venus", "chain": "BSC", "usd": 161, "detail": "XVS+BNB+USDC lending"},
+        {"protocol": "BounceBit", "chain": "BSC", "usd": 8, "detail": "BTCB staking"},
+        {"protocol": "Lista DAO", "chain": "BSC", "usd": 7, "detail": "slisBNB staking"},
+    ],
+    "stats": {
+        "age_days": 1787,
+        "tvf": 3800000,
+        "followers": 537,
+        "total_tokens": 150,
+    },
+}
+
 
 @app.get("/api/kasa")
 async def get_kasa():
@@ -736,10 +781,12 @@ async def get_kasa():
     binance_peg_total = KASA_BINANCE_PEG["total_usd"]
     wombat_total = KASA_WOMBAT["total_usd"]
     solana_total = KASA_SOLANA["total_usd"]
+    binance_main_total = KASA_BINANCE_MAIN["total_usd"]
 
     grand = (
         multichain_total + defi_total + spectra_total + watched_total
         + xixi_total + binance_peg_total + wombat_total + solana_total
+        + binance_main_total
     )
 
     return {
@@ -753,6 +800,7 @@ async def get_kasa():
         "binance_peg": KASA_BINANCE_PEG,
         "wombat": KASA_WOMBAT,
         "solana": KASA_SOLANA,
+        "binance_main": KASA_BINANCE_MAIN,
         "summary": {
             "multichain_total": round(multichain_total, 2),
             "defi_total": round(defi_total, 2),
@@ -762,6 +810,7 @@ async def get_kasa():
             "binance_peg_total": round(binance_peg_total, 2),
             "wombat_total": round(wombat_total, 2),
             "solana_total": round(solana_total, 2),
+            "binance_main_total": round(binance_main_total, 2),
             "grand_total": round(grand, 2),
         },
     }
@@ -924,10 +973,15 @@ th:last-child{text-align:right}
 
 <div id="tab-kasa" class="tab-content active">
   <div class="grid">
-    <div class="card">
-      <div class="label">Toplam Kasa Değeri</div>
-      <div class="big" id="kasaTotal">—</div>
+    <div class="card" style="border:2px solid #00e676;background:linear-gradient(135deg,#0d1f0d,#1a3a1a)">
+      <div class="label" style="color:#00e676;font-size:13px">Toplam Kasa Değeri</div>
+      <div class="big" id="kasaTotal" style="color:#00e676">—</div>
       <div class="sub" id="kasaSub">Yükleniyor…</div>
+    </div>
+    <div class="card" style="border:1px solid #ffd740">
+      <div class="label" style="color:#ffd740">Binance Ana Kasa</div>
+      <div class="big" id="kasaBinanceMain" style="color:#ffd740">—</div>
+      <div class="sub">BNB Chain + Ethereum — 150+ token</div>
     </div>
     <div class="card">
       <div class="label">Binance-Peg ETH</div>
@@ -939,13 +993,13 @@ th:last-child{text-align:right}
       <div class="big" id="kasaSolana">—</div>
       <div class="sub">SUMMIT, NUTX, IBRL + 5K token</div>
     </div>
+  </div>
+  <div class="grid" style="margin-top:0">
     <div class="card">
       <div class="label">Wombat Exchange</div>
       <div class="big" id="kasaWombat">—</div>
       <div class="sub">BNB Chain — 513 ETH</div>
     </div>
-  </div>
-  <div class="grid" style="margin-top:0">
     <div class="card">
       <div class="label">SPECTRA Hesabı</div>
       <div class="big" id="kasaSpectra">—</div>
@@ -975,6 +1029,20 @@ th:last-child{text-align:right}
         <div class="spectra-val" id="spectraVal">—</div>
       </div>
       <div id="spectraTransfers" style="font-size:12px;color:var(--text-dim)">Yükleniyor…</div>
+    </div>
+
+    <div class="kasa-card" style="margin-bottom:16px;background:linear-gradient(135deg,#2e2e0d,#3e3a0d);border:2px solid #ffd740">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-size:18px;font-weight:700;color:#ffd740">Binance Ana Kasa — $665.6M</div>
+        <div class="big" id="binanceMainVal" style="font-size:22px;color:#ffd740">—</div>
+      </div>
+      <div style="display:flex;gap:12px;margin-bottom:8px">
+        <span style="background:rgba(255,215,64,.15);border:1px solid rgba(255,215,64,.3);border-radius:6px;padding:2px 8px;font-size:11px;color:#ffd740">BNB Chain: $532.4M</span>
+        <span style="background:rgba(255,215,64,.15);border:1px solid rgba(255,215,64,.3);border-radius:6px;padding:2px 8px;font-size:11px;color:#ffd740">Ethereum: $133.2M</span>
+        <span style="background:rgba(255,215,64,.15);border:1px solid rgba(255,215,64,.3);border-radius:6px;padding:2px 8px;font-size:11px;color:#ffd740">150+ Token</span>
+      </div>
+      <div id="binanceMainTokens" style="font-size:12px">Yükleniyor…</div>
+      <div id="binanceMainDefi" style="font-size:12px;margin-top:8px">Yükleniyor…</div>
     </div>
 
     <div class="kasa-card" style="margin-bottom:16px;background:linear-gradient(135deg,#1a2e1a,#2a3e1a);border:1px solid #00e676">
@@ -1428,6 +1496,27 @@ function renderKasa(data) {
   document.getElementById('kasaSolana').textContent = fmt(s.solana_total);
   document.getElementById('kasaWombat').textContent = fmt(s.wombat_total);
   document.getElementById('kasaXixi').textContent = fmt(s.xixi_total);
+  document.getElementById('kasaBinanceMain').textContent = fmt(s.binance_main_total);
+
+  // Binance Ana Kasa detail
+  const bm = data.binance_main;
+  document.getElementById('binanceMainVal').textContent = fmt(bm.total_usd);
+  const bmHtml = bm.top_tokens.map(t =>
+    `<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,215,64,.15)">
+      <span style="font-weight:600">${t.symbol} <span style="font-size:10px;color:var(--text-dim)">(${t.chain})</span></span>
+      <span style="color:var(--text-dim)">${fmtBal(t.amount)}</span>
+      <span style="color:#ffd740">${fmt(t.usd)}</span>
+    </div>`
+  ).join('');
+  document.getElementById('binanceMainTokens').innerHTML = '<div style="font-weight:600;margin-bottom:4px;color:#ffd740">Top 15 Token:</div>' + bmHtml;
+  const bmDefiHtml = bm.defi.map(d =>
+    `<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,215,64,.1)">
+      <span style="font-weight:500">${d.protocol} <span style="font-size:10px;color:var(--text-dim)">(${d.chain})</span></span>
+      <span style="color:var(--text-dim);font-size:11px">${d.detail}</span>
+      <span>${fmt(d.usd)}</span>
+    </div>`
+  ).join('');
+  document.getElementById('binanceMainDefi').innerHTML = '<div style="font-weight:600;margin-bottom:4px;color:#ffd740">DeFi Pozisyonları:</div>' + bmDefiHtml;
 
   const sol = data.solana;
   document.getElementById('solanaVal').textContent = fmt(sol.total_usd);
