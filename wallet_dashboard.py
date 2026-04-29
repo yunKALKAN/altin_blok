@@ -435,6 +435,16 @@ KASA_WALLETS = [
         "label": "Binance Ana Kasa",
         "chain": "BNB Chain + Ethereum",
     },
+    {
+        "address": "0x7bfee91193d9df2ac0bfe90191d40f23c773c060",
+        "label": "an0n (DeFi Pro)",
+        "chain": "HyperEVM + Ethereum + 6 zincir",
+    },
+    {
+        "address": "0xbdfa4f4492dd7b7cf211209c4791af8d52bf5c50",
+        "label": "bizyugo.hl",
+        "chain": "Hyperliquid + Ethereum + 6 zincir",
+    },
 ]
 
 KASA_MULTICHAIN = {
@@ -776,6 +786,97 @@ KASA_BINANCE_MAIN = {
     },
 }
 
+KASA_ANON = {
+    "address": "0x7bfee91193d9df2ac0bfe90191d40f23c773c060",
+    "label": "an0n (DeFi Pro)",
+    "total_usd": 25547225,
+    "chains": [
+        {"name": "HyperEVM", "usd_value": 19138042},
+        {"name": "Ethereum", "usd_value": 4477033},
+        {"name": "Hyperliquid", "usd_value": 896934},
+        {"name": "Berachain", "usd_value": 597741},
+        {"name": "BNB Chain", "usd_value": 142223},
+        {"name": "Linea", "usd_value": 89069},
+        {"name": "Base", "usd_value": 84188},
+        {"name": "Fraxtal", "usd_value": 34073},
+    ],
+    "top_tokens": [
+        {"symbol": "HYPE", "chain": "HyperEVM", "amount": 106003.75, "usd": 4300890},
+        {"symbol": "WBTC", "chain": "ETH", "amount": 1.29, "usd": 99538},
+        {"symbol": "HPL", "chain": "HyperEVM", "amount": 2672660, "usd": 39298},
+        {"symbol": "ZRO", "chain": "Multi", "amount": 21815, "usd": 32396},
+        {"symbol": "REX", "chain": "HyperEVM", "amount": 1909721, "usd": 26750},
+    ],
+    "top_defi": [
+        {"protocol": "Kinetiq", "usd": 9577537, "detail": "vkHYPE+kHYPE staking"},
+        {"protocol": "ether.fi", "usd": 1757648, "detail": "weETH+liquidETH+BTC"},
+        {"protocol": "HyperLend", "usd": 1570900, "detail": "USD₮0+USDC lending"},
+        {"protocol": "Hyperbeat", "usd": 1364577, "detail": "yield vaults"},
+        {"protocol": "Hyperliquid", "usd": 896934, "detail": "vaults+delegated"},
+        {"protocol": "Pendle V2", "usd": 875045, "detail": "PT-vkHYPE"},
+        {"protocol": "D2.finance", "usd": 700443, "detail": "d2HYPE yield"},
+        {"protocol": "Kelp DAO", "usd": 602294, "detail": "ETH yield"},
+        {"protocol": "Dolomite", "usd": 456885, "detail": "WBERA lending"},
+        {"protocol": "Origami Finance", "usd": 363337, "detail": "gOHM leveraged"},
+        {"protocol": "Lombard", "usd": 313013, "detail": "LBTCv yield"},
+        {"protocol": "IPOR", "usd": 283199, "detail": "stETH looping"},
+        {"protocol": "LIDO", "usd": 195426, "detail": "wstETH staked"},
+        {"protocol": "Morpho", "usd": 152794, "detail": "USDT0 vaults"},
+        {"protocol": "Beefy", "usd": 147469, "detail": "LP farming"},
+    ],
+    "stats": {
+        "age_days": 2911,
+        "tvf": 1500000000,
+        "followers": 74600,
+        "total_protocols": 100,
+    },
+}
+
+KASA_BIZYUGO = {
+    "address": "0xbdfa4f4492dd7b7cf211209c4791af8d52bf5c50",
+    "label": "bizyugo.hl",
+    "total_usd": 79715717,
+    "chains": [
+        {"name": "Hyperliquid", "usd_value": 42226180},
+        {"name": "Ethereum", "usd_value": 24299868},
+        {"name": "HyperEVM", "usd_value": 12205338},
+        {"name": "Arbitrum", "usd_value": 674638},
+        {"name": "Ink", "usd_value": 92309},
+        {"name": "Avalanche", "usd_value": 87517},
+    ],
+    "top_tokens": [
+        {"symbol": "HYPE", "chain": "Hyperliquid", "amount": 1005065, "usd": 40711666},
+        {"symbol": "HYPE", "chain": "Wallet", "amount": 129392, "usd": 5242969},
+        {"symbol": "sUSDat", "chain": "ETH", "amount": 299702, "usd": 299593},
+        {"symbol": "WHYPE", "chain": "HyperEVM", "amount": 5000, "usd": 202600},
+        {"symbol": "ETH", "chain": "ETH", "amount": 56.94, "usd": 132939},
+        {"symbol": "USDC", "chain": "Multi", "amount": 104525, "usd": 104536},
+    ],
+    "top_defi": [
+        {"protocol": "Hyperliquid", "usd": 42226180, "detail": "1M+ HYPE delegated+vaults+perps"},
+        {"protocol": "Aave V3", "usd": 17274881, "detail": "236 WBTC+44 LBTC+713 wstETH"},
+        {"protocol": "Morpho", "usd": 7600313, "detail": "Felix HYPE+USDH+vaults"},
+        {"protocol": "Upshift", "usd": 4000400, "detail": "fUSDnr $4M"},
+        {"protocol": "GMX V2", "usd": 444739, "detail": "perps+LP"},
+        {"protocol": "Pendle V2", "usd": 364542, "detail": "PT-apxUSD+PENDLE locked"},
+        {"protocol": "Uniswap V3", "usd": 309521, "detail": "PAXG+XAUt LP"},
+        {"protocol": "Kinetiq", "usd": 273090, "detail": "KNTQ staked"},
+        {"protocol": "Hyperbeat", "usd": 235812, "detail": "Ultra uBTC"},
+        {"protocol": "Tensorplex", "usd": 157702, "detail": "stTAO"},
+        {"protocol": "Boros", "usd": 146892, "detail": "USD₮0+WBTC"},
+        {"protocol": "Fluid", "usd": 98381, "detail": "sUSDai+USDC lending"},
+        {"protocol": "Velodrome V3", "usd": 92078, "detail": "USD₮0+USDG farming"},
+        {"protocol": "Yield Basis", "usd": 76657, "detail": "yb-tBTC"},
+        {"protocol": "Gearbox", "usd": 51713, "detail": "EDGE UltraYield USDC"},
+    ],
+    "stats": {
+        "age_days": 1853,
+        "tvf": 1500000000,
+        "followers": 83000,
+        "total_protocols": 40,
+    },
+}
+
 
 @app.get("/api/kasa")
 async def get_kasa():
@@ -789,11 +890,13 @@ async def get_kasa():
     wombat_total = KASA_WOMBAT["total_usd"]
     solana_total = KASA_SOLANA["total_usd"]
     binance_main_total = KASA_BINANCE_MAIN["total_usd"]
+    anon_total = KASA_ANON["total_usd"]
+    bizyugo_total = KASA_BIZYUGO["total_usd"]
 
     grand = (
         multichain_total + defi_total + spectra_total + watched_total
         + xixi_total + binance_peg_total + wombat_total + solana_total
-        + binance_main_total
+        + binance_main_total + anon_total + bizyugo_total
     )
 
     return {
@@ -808,6 +911,8 @@ async def get_kasa():
         "wombat": KASA_WOMBAT,
         "solana": KASA_SOLANA,
         "binance_main": KASA_BINANCE_MAIN,
+        "anon": KASA_ANON,
+        "bizyugo": KASA_BIZYUGO,
         "summary": {
             "multichain_total": round(multichain_total, 2),
             "defi_total": round(defi_total, 2),
@@ -818,6 +923,8 @@ async def get_kasa():
             "wombat_total": round(wombat_total, 2),
             "solana_total": round(solana_total, 2),
             "binance_main_total": round(binance_main_total, 2),
+            "anon_total": round(anon_total, 2),
+            "bizyugo_total": round(bizyugo_total, 2),
             "grand_total": round(grand, 2),
         },
     }
@@ -990,18 +1097,28 @@ th:last-child{text-align:right}
       <div class="big" id="kasaBinanceMain" style="color:#ffd740">—</div>
       <div class="sub">BNB Chain + Ethereum — 150+ token</div>
     </div>
+    <div class="card" style="border:1px solid #448aff">
+      <div class="label" style="color:#448aff">bizyugo.hl</div>
+      <div class="big" id="kasaBizyugo" style="color:#448aff">—</div>
+      <div class="sub">Hyperliquid + Ethereum — 40+ protokol</div>
+    </div>
     <div class="card">
       <div class="label">Binance-Peg ETH</div>
       <div class="big" id="kasaBinance">—</div>
       <div class="sub">BNB Chain + Ethereum</div>
+    </div>
+  </div>
+  <div class="grid" style="margin-top:0">
+    <div class="card" style="border:1px solid #ffab40">
+      <div class="label" style="color:#ffab40">an0n (DeFi Pro)</div>
+      <div class="big" id="kasaAnon" style="color:#ffab40">—</div>
+      <div class="sub">HyperEVM + 8 zincir — 100+ protokol</div>
     </div>
     <div class="card">
       <div class="label">Solana Cüzdanı</div>
       <div class="big" id="kasaSolana">—</div>
       <div class="sub">SUMMIT, NUTX, IBRL + 5K token</div>
     </div>
-  </div>
-  <div class="grid" style="margin-top:0">
     <div class="card">
       <div class="label">Wombat Exchange</div>
       <div class="big" id="kasaWombat">—</div>
@@ -1050,6 +1167,34 @@ th:last-child{text-align:right}
       </div>
       <div id="binanceMainTokens" style="font-size:12px">Yükleniyor…</div>
       <div id="binanceMainDefi" style="font-size:12px;margin-top:8px">Yükleniyor…</div>
+    </div>
+
+    <div class="kasa-card" style="margin-bottom:16px;background:linear-gradient(135deg,#0d1a2e,#1a2a3e);border:2px solid #448aff">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-size:18px;font-weight:700;color:#448aff">bizyugo.hl — $79.7M</div>
+        <div class="big" id="bizyugoVal" style="font-size:22px;color:#448aff">—</div>
+      </div>
+      <div style="display:flex;gap:12px;margin-bottom:8px;flex-wrap:wrap">
+        <span style="background:rgba(68,138,255,.15);border:1px solid rgba(68,138,255,.3);border-radius:6px;padding:2px 8px;font-size:11px;color:#448aff">Hyperliquid: $42.2M</span>
+        <span style="background:rgba(68,138,255,.15);border:1px solid rgba(68,138,255,.3);border-radius:6px;padding:2px 8px;font-size:11px;color:#448aff">Ethereum: $24.3M</span>
+        <span style="background:rgba(68,138,255,.15);border:1px solid rgba(68,138,255,.3);border-radius:6px;padding:2px 8px;font-size:11px;color:#448aff">HyperEVM: $12.2M</span>
+        <span style="background:rgba(68,138,255,.15);border:1px solid rgba(68,138,255,.3);border-radius:6px;padding:2px 8px;font-size:11px;color:#448aff">40+ Protokol</span>
+      </div>
+      <div id="bizyugoDefi" style="font-size:12px">Yükleniyor…</div>
+    </div>
+
+    <div class="kasa-card" style="margin-bottom:16px;background:linear-gradient(135deg,#2e1f0d,#3e2a0d);border:2px solid #ffab40">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-size:18px;font-weight:700;color:#ffab40">an0n (DeFi Pro) — $25.5M</div>
+        <div class="big" id="anonVal" style="font-size:22px;color:#ffab40">—</div>
+      </div>
+      <div style="display:flex;gap:12px;margin-bottom:8px;flex-wrap:wrap">
+        <span style="background:rgba(255,171,64,.15);border:1px solid rgba(255,171,64,.3);border-radius:6px;padding:2px 8px;font-size:11px;color:#ffab40">HyperEVM: $19.1M</span>
+        <span style="background:rgba(255,171,64,.15);border:1px solid rgba(255,171,64,.3);border-radius:6px;padding:2px 8px;font-size:11px;color:#ffab40">Ethereum: $4.5M</span>
+        <span style="background:rgba(255,171,64,.15);border:1px solid rgba(255,171,64,.3);border-radius:6px;padding:2px 8px;font-size:11px;color:#ffab40">Hyperliquid: $897K</span>
+        <span style="background:rgba(255,171,64,.15);border:1px solid rgba(255,171,64,.3);border-radius:6px;padding:2px 8px;font-size:11px;color:#ffab40">100+ Protokol</span>
+      </div>
+      <div id="anonDefi" style="font-size:12px">Yükleniyor…</div>
     </div>
 
     <div class="kasa-card" style="margin-bottom:16px;background:linear-gradient(135deg,#1a2e1a,#2a3e1a);border:1px solid #00e676">
@@ -1524,6 +1669,32 @@ function renderKasa(data) {
     </div>`
   ).join('');
   document.getElementById('binanceMainDefi').innerHTML = '<div style="font-weight:600;margin-bottom:4px;color:#ffd740">DeFi Pozisyonları:</div>' + bmDefiHtml;
+
+  // bizyugo.hl detail
+  const bz = data.bizyugo;
+  document.getElementById('kasaBizyugo').textContent = fmt(s.bizyugo_total);
+  document.getElementById('bizyugoVal').textContent = fmt(bz.total_usd);
+  const bzHtml = bz.top_defi.map(d =>
+    `<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(68,138,255,.15)">
+      <span style="font-weight:600">${d.protocol}</span>
+      <span style="color:var(--text-dim);font-size:11px">${d.detail}</span>
+      <span style="color:#448aff">${fmt(d.usd)}</span>
+    </div>`
+  ).join('');
+  document.getElementById('bizyugoDefi').innerHTML = '<div style="font-weight:600;margin-bottom:4px;color:#448aff">Top 15 Protokol:</div>' + bzHtml;
+
+  // an0n detail
+  const an = data.anon;
+  document.getElementById('kasaAnon').textContent = fmt(s.anon_total);
+  document.getElementById('anonVal').textContent = fmt(an.total_usd);
+  const anHtml = an.top_defi.map(d =>
+    `<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,171,64,.15)">
+      <span style="font-weight:600">${d.protocol}</span>
+      <span style="color:var(--text-dim);font-size:11px">${d.detail}</span>
+      <span style="color:#ffab40">${fmt(d.usd)}</span>
+    </div>`
+  ).join('');
+  document.getElementById('anonDefi').innerHTML = '<div style="font-weight:600;margin-bottom:4px;color:#ffab40">Top 15 Protokol:</div>' + anHtml;
 
   const sol = data.solana;
   document.getElementById('solanaVal').textContent = fmt(sol.total_usd);
