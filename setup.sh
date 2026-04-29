@@ -11,7 +11,12 @@ echo "🔹 Pip güncelleniyor..."
 python3 -m pip install --upgrade pip
 
 echo "🔹 Gerekli paketler yükleniyor..."
-python3 -m pip install streamlit pandas matplotlib
+python3 -m pip install -r requirements.txt
 
-echo "🔹 Dashboard başlatılıyor..."
-streamlit run voice_dashboard.py
+echo ""
+echo "🔹 Cüzdan İzleme Dashboard'unu başlatmak için:"
+echo "   python wallet_dashboard.py"
+echo "   Ardından http://localhost:8050 adresini açın."
+echo ""
+echo "🔹 Opsiyonel: Etherscan API anahtarı ayarlayın:"
+echo "   export ETHERSCAN_API_KEY=senin_anahtarin"
