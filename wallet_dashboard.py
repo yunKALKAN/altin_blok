@@ -1,6 +1,7 @@
 """
-Cüzdan İzleme Dashboard'u — FastAPI + Etherscan + CoinGecko
-Adres: 0x4E83362442B8d1beC281594cea3050c8EB01311C
+Cüzdan İzleme Dashboard'u — FastAPI + Multi-Chain Kasa
+Ana Adres: 0x4E83362442B8d1beC281594cea3050c8EB01311C
+Kasa: Tüm cüzdanlar ve zincirler genelinde konsolide varlık görünümü
 """
 
 import os
@@ -363,6 +364,409 @@ async def get_history(address: str = Query(default=DEFAULT_WALLET)):
     }
 
 
+KASA_WALLETS = [
+    {
+        "address": "0x4E83362442B8d1beC281594cea3050c8EB01311C",
+        "label": "Ana Cüzdan",
+        "chain": "Ethereum",
+    },
+    {
+        "address": "0x65e65Ae6b2C77e4Eb40b8F391AAc222E96Da4258",
+        "label": "Ek Cüzdan 1",
+        "chain": "Multi",
+    },
+    {
+        "address": "0xE81cBBD77f62509CDe88Aa6Ba1a98Cd8C59C13d9",
+        "label": "Ek Cüzdan 2",
+        "chain": "Multi",
+    },
+    {
+        "address": "0x232B8637f99056287F07bE0eD24083D56A9f599b",
+        "label": "Ek Cüzdan 3",
+        "chain": "Multi",
+    },
+    {
+        "address": "0xdDafD55B1d3CF49BcFAF38bF208D44690908d13F",
+        "label": "Ek Cüzdan 4",
+        "chain": "Multi",
+    },
+    {
+        "address": "0xb0d17E129290FD8149DA3c75593f9596c99105a5",
+        "label": "Ek Cüzdan 5",
+        "chain": "Multi",
+    },
+    {
+        "address": "0xA9487a4a6A98722d6Cd7d6FF3e59b741a0E87198",
+        "label": "Ek Cüzdan 6",
+        "chain": "Multi",
+    },
+    {
+        "address": "0x16849c6834BA5b65274b1C9BF8F395e71b795942",
+        "label": "Ek Cüzdan 7",
+        "chain": "Multi",
+    },
+    {
+        "address": "0xF7bB2ea845b9e56aEf9E364d6Ae05Ea88236ca40",
+        "label": "Ek Cüzdan 8",
+        "chain": "Multi",
+    },
+    {
+        "address": "0x6a89228055c7c28430692e342f149f37462b478b",
+        "label": "SPECTRA Hesabı",
+        "chain": "Base",
+    },
+    {
+        "address": "0x54d818277b2b40adfe3ee72e82e6a8fcdd92ae53",
+        "label": "xixi",
+        "chain": "Multi (27+ zincir)",
+    },
+    {
+        "address": "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
+        "label": "Binance-Peg ETH",
+        "chain": "BNB Chain + Ethereum",
+    },
+    {
+        "address": "0x4447de210475bfa08e5d42271a73d7624c8a5ac6",
+        "label": "Wombat Exchange",
+        "chain": "BNB Chain",
+    },
+]
+
+KASA_MULTICHAIN = {
+    "total_usd_value": 27654.14,
+    "chains": [
+        {"name": "Ethereum", "usd_value": 11937.70},
+        {"name": "Arbitrum", "usd_value": 3394.65},
+        {"name": "Avalanche", "usd_value": 3251.96},
+        {"name": "BSC", "usd_value": 2279.53},
+        {"name": "Boba", "usd_value": 2009.38},
+        {"name": "Polygon", "usd_value": 1241.13},
+        {"name": "OEC", "usd_value": 1051.85},
+        {"name": "Moonriver", "usd_value": 996.32},
+        {"name": "Optimism", "usd_value": 481.66},
+        {"name": "Fantom", "usd_value": 388.45},
+        {"name": "xDai", "usd_value": 305.39},
+        {"name": "Celo", "usd_value": 162.94},
+        {"name": "HECO", "usd_value": 85.54},
+        {"name": "Cronos", "usd_value": 67.64},
+    ],
+}
+
+KASA_DEFI = [
+    {
+        "protocol": "Alpaca Finance",
+        "chain": "BSC",
+        "usd_value": 78.60,
+        "positions": [{"pool": "WBNB", "balance": "0.1253 WBNB", "usd": 78.60}],
+    },
+    {
+        "protocol": "Venus",
+        "chain": "BSC",
+        "usd_value": 22.65,
+        "positions": [
+            {"pool": "ETH (Lending)", "balance": "0.0097 ETH", "usd": 22.65},
+            {"pool": "XVS (Reward)", "balance": "0.0008 XVS", "usd": 0.01},
+        ],
+    },
+    {
+        "protocol": "PancakeSwap",
+        "chain": "BSC",
+        "usd_value": 22.18,
+        "positions": [
+            {"pool": "USDT+WBNB LP", "balance": "11.02 USDT + 0.018 WBNB", "usd": 22.03},
+            {"pool": "WBNB+ETHK LP", "balance": "0.0002 WBNB + 1277 ETHK", "usd": 0.15},
+        ],
+    },
+    {
+        "protocol": "bDollar",
+        "chain": "BSC",
+        "usd_value": 6.91,
+        "positions": [
+            {"pool": "BDO+BUSD Farm", "balance": "438.15 BDO + 6.91 BUSD", "usd": 6.91},
+        ],
+    },
+    {
+        "protocol": "Superfluid",
+        "chain": "Polygon",
+        "usd_value": 0.01,
+        "positions": [{"pool": "WPOL", "balance": "0.0042 WPOL", "usd": 0.01}],
+    },
+    {
+        "protocol": "Pendle V2",
+        "chain": "Ethereum",
+        "usd_value": 372.44,
+        "positions": [
+            {
+                "pool": "ETH+PT-weETH-27JUN2024 LP",
+                "balance": "0.0433 ETH + 0.0727 PT-weETH",
+                "usd": 269.95,
+            },
+            {
+                "pool": "weETH+PT-weETH-26DEC2024 LP",
+                "balance": "0.0017 weETH + 0.0423 PT-weETH",
+                "usd": 102.49,
+            },
+        ],
+        "rewards": [
+            {"token": "PENDLE", "amount": 0.2199, "usd": 0.30},
+        ],
+    },
+    {
+        "protocol": "Aave V3",
+        "chain": "Ethereum",
+        "usd_value": 253.08,
+        "positions": [
+            {"pool": "WETH (Supply)", "balance": "0.1086 WETH", "usd": 253.40},
+            {"pool": "wstETH (Supply)", "balance": "0.0510 wstETH", "usd": 146.41},
+            {"pool": "wstETH (Borrow)", "balance": "-0.0511 wstETH", "usd": -146.73},
+        ],
+        "health_factor": 2.22,
+    },
+    {
+        "protocol": "Ethena",
+        "chain": "Ethereum",
+        "usd_value": 122.41,
+        "positions": [
+            {"pool": "sUSDe (Staked)", "balance": "122.3284 USDe", "usd": 122.27},
+            {"pool": "sENA (Staked)", "balance": "1.2932 ENA", "usd": 0.14},
+        ],
+    },
+]
+
+KASA_SPECTRA = {
+    "address": "0x6a89228055c7c28430692e342f149f37462b478b",
+    "chain": "Base",
+    "token": "SPECTRA",
+    "protocol": "Spectra",
+    "total_usd": 796989,
+    "recent_transfers": [
+        {"date": "2026-04-27", "direction": "gelen", "amount": 231.79, "usd": 0.89},
+        {"date": "2026-04-27", "direction": "gelen", "amount": 47.84, "usd": 0.19},
+        {"date": "2026-04-24", "direction": "giden", "amount": 2089.44, "usd": 8.24},
+        {"date": "2026-04-23", "direction": "gelen", "amount": 61511.31, "usd": 242.52},
+        {"date": "2026-04-23", "direction": "giden", "amount": 5800.00, "usd": 22.87},
+        {"date": "2026-04-22", "direction": "giden", "amount": 20000.00, "usd": 78.85},
+        {"date": "2026-04-21", "direction": "gelen", "amount": 105228.48, "usd": 469.82},
+        {"date": "2026-04-20", "direction": "gelen", "amount": 39062.28, "usd": 176.13},
+    ],
+}
+
+KASA_WATCHED = [
+    {"label": "DeFiWhale", "usd_value": 51900000, "top_tokens": "asBNB 40%, BTCB 15%, slisBNB 14%"},
+    {"label": "Ethereum Whale", "usd_value": 37500000, "top_tokens": "WBTC 32%, WHYPE 17%, HYPE 14%"},
+    {"label": "0x24c4…37ec", "usd_value": 12200000, "top_tokens": "WBTC 31%, ETH 18%, stETH 10%"},
+    {"label": "Gekko", "usd_value": 523700, "top_tokens": "WBTC 30%, VVV 20%, ETH 15%"},
+    {"label": "nelsonmandela", "usd_value": 1000000, "top_tokens": "ETH 40%, USDe 8%, BTC.b 6%"},
+    {"label": "1559", "usd_value": 1400000, "top_tokens": "ETH 71%, LBTC 23%"},
+    {"label": "Nyanpasu", "usd_value": 1300000, "top_tokens": "ETH 45%, USDe 22%, WBTC 11%"},
+    {"label": "polka", "usd_value": 2900000, "top_tokens": "ETH 62%, asBNB 17%, USDT 14%"},
+    {"label": "sylvinfo", "usd_value": 139000, "top_tokens": "stETH 20%, REALTOKEN 11%, WBTC 11%"},
+    {"label": "Enerow", "usd_value": 140100, "top_tokens": "ETH 57%, SPECTRA 16%, RTW 14%"},
+    {"label": "AZKCrypto", "usd_value": 10400, "top_tokens": "cbBTC 22%, ETH 18%, BOLD 15%"},
+    {"label": "Vibe", "usd_value": 5342, "top_tokens": "USDC 33%, ETH 16%, wstETH 15%"},
+    {"label": "tester", "usd_value": 1297, "top_tokens": "ETH 28%, USDC 18%, BNB 12%"},
+    {"label": "AlphaCop", "usd_value": 1041, "top_tokens": "ETH 99%"},
+]
+
+KASA_XIXI = {
+    "address": "0x54d818277b2b40adfe3ee72e82e6a8fcdd92ae53",
+    "label": "xixi",
+    "total_usd": 8927,
+    "wallet_usd": 2163,
+    "defi_usd": 6764,
+    "chains": [
+        {"name": "Linea", "usd_value": 4020},
+        {"name": "Base", "usd_value": 2021},
+        {"name": "Ethereum", "usd_value": 1080},
+        {"name": "Arbitrum", "usd_value": 394},
+        {"name": "Mantle", "usd_value": 211},
+        {"name": "zkSync Era", "usd_value": 203},
+        {"name": "Scroll", "usd_value": 197},
+        {"name": "BNB Chain", "usd_value": 139},
+        {"name": "DBK Chain", "usd_value": 119},
+        {"name": "Blast", "usd_value": 107},
+        {"name": "Cyber", "usd_value": 64},
+        {"name": "ZetaChain", "usd_value": 43},
+        {"name": "Sonic", "usd_value": 32},
+        {"name": "SwellChain", "usd_value": 27},
+        {"name": "Merlin", "usd_value": 27},
+        {"name": "opBNB", "usd_value": 25},
+        {"name": "Zora", "usd_value": 21},
+        {"name": "Polygon", "usd_value": 21},
+        {"name": "OP", "usd_value": 19},
+        {"name": "Unichain", "usd_value": 19},
+        {"name": "World Chain", "usd_value": 19},
+        {"name": "Sei", "usd_value": 16},
+        {"name": "Lisk", "usd_value": 15},
+        {"name": "Kaia", "usd_value": 13},
+        {"name": "Soneium", "usd_value": 12},
+        {"name": "Hyperliquid", "usd_value": 12},
+        {"name": "Manta Pacific", "usd_value": 10},
+    ],
+    "top_tokens": [
+        {"symbol": "WETH", "amount": 0.2083, "usd": 486.45},
+        {"symbol": "ETH", "amount": 0.0651, "usd": 151.97},
+        {"symbol": "W", "amount": 9836.42, "usd": 128.97},
+        {"symbol": "SolvBTC", "amount": 0.0016, "usd": 124.10},
+        {"symbol": "mUSD", "amount": 101.00, "usd": 101.00},
+        {"symbol": "TOSHI", "amount": 410941.15, "usd": 77.46},
+        {"symbol": "VIRTUAL", "amount": 108.31, "usd": 77.08},
+        {"symbol": "wrsETH", "amount": 0.0295, "usd": 73.64},
+        {"symbol": "uniBTC", "amount": 0.0007, "usd": 57.56},
+        {"symbol": "COMP", "amount": 1.59, "usd": 37.40},
+        {"symbol": "ONDO", "amount": 107.98, "usd": 28.82},
+    ],
+    "defi_protocols": [
+        {"protocol": "ZeroLend", "usd": 3470, "detail": "Lending: 1.24 WETH + 0.011 SolvBTC.m + 804 USDC supplied, 0.55 ezETH borrowed"},
+        {"protocol": "Silo", "usd": 585, "detail": "Lending: 0.65 ezETH supplied, 0.44 WETH borrowed"},
+        {"protocol": "SoSoValue", "usd": 533, "detail": "Staked: 741 MAG7.ssi + 313 SOSO + 62 MEME.ssi"},
+        {"protocol": "ether.fi", "usd": 338, "detail": "Yield: 0.115 WETH + 82.6 ETHFI + 9 EIGEN + Staked 0.01 ETH"},
+        {"protocol": "Pendle V2", "usd": 373, "detail": "LP: weETH pools ($270 + $103)"},
+        {"protocol": "Aave V3 (ETH)", "usd": 253, "detail": "Supply: 0.109 WETH + 0.051 wstETH, Borrow: 0.051 wstETH"},
+        {"protocol": "Ethena", "usd": 122, "detail": "Staked: 122.3 USDe + 1.29 ENA"},
+        {"protocol": "Stader", "usd": 99, "detail": "Staked: 0.158 BNB (BNBx)"},
+        {"protocol": "SyncSwap", "usd": 89, "detail": "LP: USDC+WETH pool"},
+        {"protocol": "Karak", "usd": 86, "detail": "Staked: 0.034 mETH"},
+        {"protocol": "Radiant Capital V2", "usd": 85, "detail": "Lending: 0.051 weETH supplied, 0.019 WETH borrowed"},
+        {"protocol": "Koi", "usd": 81, "detail": "LP: USDC+WETH pool"},
+        {"protocol": "Mantle Reward Station", "usd": 70, "detail": "Staked: 110 MNT"},
+        {"protocol": "Compound V3", "usd": 94, "detail": "Lending: 0.03 WETH + 12 USDbC supplied"},
+        {"protocol": "Cyber", "usd": 54, "detail": "Yield: 100.6 CYBER"},
+        {"protocol": "Layer3", "usd": 42, "detail": "Staked: 2284 L3"},
+        {"protocol": "ZetaHub", "usd": 40, "detail": "Farming: BNB+WZETA + WZETA+ETH pools"},
+        {"protocol": "Ambient", "usd": 32, "detail": "LP: ETH+USDB pool"},
+        {"protocol": "EigenLayer", "usd": 28, "detail": "Yield: 138 EIGEN + 332 ALT"},
+        {"protocol": "LayerBank", "usd": 24, "detail": "Supply: 24.4 USDC"},
+        {"protocol": "GMX", "usd": 24, "detail": "Staked: mixed assets + 1 GMX"},
+        {"protocol": "Kinza Finance", "usd": 23, "detail": "Supply: 23 USDC"},
+        {"protocol": "Aave V3 (ARB)", "usd": 21, "detail": "Supply: 105 ARB + 0.003 WETH"},
+        {"protocol": "Omni Network", "usd": 14, "detail": "Staked: 20.3 OMNI"},
+        {"protocol": "NILE", "usd": 13, "detail": "Staked: ZERO+WETH pool"},
+        {"protocol": "Silo (2)", "usd": 12, "detail": "Supply: 0.01 PT-weETH, Borrow: 0.005 WETH"},
+        {"protocol": "Merchant Moe", "usd": 12, "detail": "LP: WMNT+cmETH + 154 MOE staked"},
+        {"protocol": "Hyperliquid", "usd": 12, "detail": "Spot: 11.55 USDC"},
+        {"protocol": "Uniswap V3", "usd": 11, "detail": "LP: USDC+USDT0 pool"},
+        {"protocol": "MantleETH", "usd": 11, "detail": "Locked: 3597 COOK"},
+        {"protocol": "BladeSwap", "usd": 11, "detail": "Farming: USDB+ETH pool"},
+        {"protocol": "ICHI", "usd": 10, "detail": "Yield: LYNX+STONE vault"},
+        {"protocol": "Alchemix V2", "usd": 10, "detail": "Supply: 10.5 USDC, Borrow: 0.25 alUSD"},
+        {"protocol": "Kaia", "usd": 10, "detail": "Staked: 210 KAIA"},
+        {"protocol": "Stargate", "usd": 8, "detail": "Locked: 36.6 STG (unlock 2026/03/19)"},
+        {"protocol": "ZeroLend (Base)", "usd": 7, "detail": "Supply: 15.3 AERO"},
+        {"protocol": "ether.fi (2)", "usd": 7, "detail": "Yield: 16.9 ETHFI"},
+    ],
+}
+
+KASA_BINANCE_PEG = {
+    "address": "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
+    "label": "Binance-Peg ETH",
+    "total_usd": 72820155,
+    "chains": [
+        {"name": "BNB Chain", "usd_value": 72274762},
+        {"name": "Ethereum", "usd_value": 512543},
+    ],
+    "top_tokens": [
+        {"symbol": "ETH", "chain": "BNB", "amount": 31023.43, "usd": 72129486},
+        {"symbol": "ETH", "chain": "ETH", "amount": 216.55, "usd": 503477},
+        {"symbol": "BUSD", "chain": "BNB", "amount": 72969.48, "usd": 72957},
+        {"symbol": "USDT", "chain": "BNB", "amount": 36527.23, "usd": 36517},
+        {"symbol": "BTCB", "chain": "BNB", "amount": 0.2178, "usd": 16823},
+        {"symbol": "DOGE", "chain": "BNB", "amount": 81406.39, "usd": 8278},
+        {"symbol": "SHIB", "chain": "BNB", "amount": 254397249.67, "usd": 1583},
+        {"symbol": "AXS", "chain": "BNB", "amount": 1317.68, "usd": 2008},
+    ],
+    "defi": [
+        {"protocol": "Alpaca Finance", "chain": "BSC", "usd": 79, "detail": "0.1253 WBNB"},
+        {"protocol": "Venus", "chain": "BSC", "usd": 23, "detail": "0.0097 ETH lending"},
+        {"protocol": "PancakeSwap", "chain": "BSC", "usd": 22, "detail": "USDT+WBNB LP"},
+    ],
+}
+
+KASA_WOMBAT = {
+    "address": "0x4447de210475bfa08e5d42271a73d7624c8a5ac6",
+    "label": "Wombat Exchange",
+    "total_usd": 1197232,
+    "chain": "BNB Chain",
+    "tokens": [
+        {"symbol": "ETH", "amount": 513.53, "usd": 1197231},
+    ],
+    "defi": [
+        {"protocol": "PancakeSwap", "usd": 0, "detail": "USDT+OSK LP (~$0)"},
+    ],
+}
+
+KASA_SOLANA = {
+    "label": "Solana Cüzdanı",
+    "chain": "Solana",
+    "total_usd": 6428035,
+    "tokens": [
+        {"symbol": "SUMMIT", "amount": 576498199010.9, "usd": 4312219},
+        {"symbol": "NUTX", "amount": 480000000000000, "usd": 1265813},
+        {"symbol": "IBRL", "amount": 743433700.09, "usd": 843252},
+        {"symbol": "WSOL", "amount": 51.13, "usd": 4339},
+        {"symbol": "USDT", "amount": 1941.98, "usd": 1942},
+        {"symbol": "USDC", "amount": 1713.15, "usd": 1713},
+        {"symbol": "RNLD", "amount": 111128356.43, "usd": 6776},
+        {"symbol": "CR", "amount": 9000000, "usd": 155},
+        {"symbol": "GOLDINU", "amount": 177325, "usd": 106},
+    ],
+    "stats": {
+        "total_token_accounts": 5000,
+        "sol_balance": 104.44,
+    },
+}
+
+KASA_SPECTRA_TOKEN = {
+    "contract": "0x64fc...4e51",
+    "chain": "Base",
+    "price": 0.01,
+    "tvl": 167512.20,
+    "followers": 16,
+}
+
+
+@app.get("/api/kasa")
+async def get_kasa():
+    """Consolidated vault view across all wallets and chains."""
+    multichain_total = KASA_MULTICHAIN["total_usd_value"]
+    defi_total = sum(d["usd_value"] for d in KASA_DEFI)
+    spectra_total = KASA_SPECTRA["total_usd"]
+    watched_total = sum(w["usd_value"] for w in KASA_WATCHED)
+    xixi_total = KASA_XIXI["total_usd"]
+    binance_peg_total = KASA_BINANCE_PEG["total_usd"]
+    wombat_total = KASA_WOMBAT["total_usd"]
+    solana_total = KASA_SOLANA["total_usd"]
+
+    grand = (
+        multichain_total + defi_total + spectra_total + watched_total
+        + xixi_total + binance_peg_total + wombat_total + solana_total
+    )
+
+    return {
+        "wallets": KASA_WALLETS,
+        "multichain": KASA_MULTICHAIN,
+        "defi_positions": KASA_DEFI,
+        "spectra": KASA_SPECTRA,
+        "spectra_token": KASA_SPECTRA_TOKEN,
+        "watched_wallets": KASA_WATCHED,
+        "xixi": KASA_XIXI,
+        "binance_peg": KASA_BINANCE_PEG,
+        "wombat": KASA_WOMBAT,
+        "solana": KASA_SOLANA,
+        "summary": {
+            "multichain_total": round(multichain_total, 2),
+            "defi_total": round(defi_total, 2),
+            "spectra_total": round(spectra_total, 2),
+            "watched_total": round(watched_total, 2),
+            "xixi_total": round(xixi_total, 2),
+            "binance_peg_total": round(binance_peg_total, 2),
+            "wombat_total": round(wombat_total, 2),
+            "solana_total": round(solana_total, 2),
+            "grand_total": round(grand, 2),
+        },
+    }
+
+
 @app.get("/", response_class=HTMLResponse)
 async def serve_dashboard():
     return DASHBOARD_HTML
@@ -440,13 +844,39 @@ th:last-child{text-align:right}
   align-items:center;justify-content:center;flex-direction:column;gap:16px;z-index:100}
 .loading-overlay .spinner{width:40px;height:40px;border-width:3px}
 
-.tabs{display:flex;gap:0;padding:0 32px;margin-top:8px}
+.tabs{display:flex;gap:0;padding:0 32px;margin-top:8px;overflow-x:auto}
 .tab-btn{background:none;border:none;color:var(--text-dim);padding:12px 24px;
-  font-size:14px;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;font-weight:500}
+  font-size:14px;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;font-weight:500;white-space:nowrap}
 .tab-btn:hover{color:var(--text)}
 .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
 .tab-content{display:none}
 .tab-content.active{display:block}
+
+.kasa-section{padding:0 32px 32px}
+.kasa-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:24px}
+.kasa-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px}
+.kasa-card .k-label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.kasa-card .k-big{font-size:28px;font-weight:700}
+.kasa-card .k-sub{font-size:12px;color:var(--text-dim);margin-top:4px}
+.chain-bar{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)}
+.chain-bar:last-child{border-bottom:none}
+.chain-name{min-width:90px;font-size:13px}
+.chain-fill{height:6px;border-radius:3px;transition:width .3s}
+.chain-val{font-size:12px;color:var(--text-dim);min-width:80px;text-align:right}
+.defi-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+.defi-row:last-child{border-bottom:none}
+.defi-proto{font-weight:600;font-size:14px}
+.defi-chain{font-size:11px;color:var(--text-dim);margin-left:8px}
+.defi-val{font-weight:600;color:var(--accent)}
+.watched-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.watched-row:last-child{border-bottom:none}
+.watched-label{font-weight:600;min-width:120px}
+.watched-val{color:var(--accent);font-weight:600;min-width:100px;text-align:right}
+.watched-tokens{color:var(--text-dim);font-size:11px;flex:1;text-align:right;margin-right:12px}
+.spectra-card{background:linear-gradient(135deg,#1a1a2e,#2a1a3e);border:1px solid #7b2ff7;border-radius:14px;padding:20px;margin-bottom:16px}
+.spectra-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.spectra-title{font-size:16px;font-weight:700;color:#ea80fc}
+.spectra-val{font-size:24px;font-weight:700}
 
 .history-section{padding:0 32px 32px}
 .history-table{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
@@ -486,11 +916,115 @@ th:last-child{text-align:right}
 </header>
 
 <div class="tabs">
-  <button class="tab-btn active" onclick="switchTab('portfolio')">Portföy</button>
+  <button class="tab-btn active" onclick="switchTab('kasa')">Kasa Özeti</button>
+  <button class="tab-btn" onclick="switchTab('portfolio')">Portföy</button>
   <button class="tab-btn" onclick="switchTab('history')">İşlem Geçmişi</button>
 </div>
 
-<div id="tab-portfolio" class="tab-content active">
+<div id="tab-kasa" class="tab-content active">
+  <div class="grid">
+    <div class="card">
+      <div class="label">Toplam Kasa Değeri</div>
+      <div class="big" id="kasaTotal">—</div>
+      <div class="sub" id="kasaSub">Yükleniyor…</div>
+    </div>
+    <div class="card">
+      <div class="label">Binance-Peg ETH</div>
+      <div class="big" id="kasaBinance">—</div>
+      <div class="sub">BNB Chain + Ethereum</div>
+    </div>
+    <div class="card">
+      <div class="label">Solana Cüzdanı</div>
+      <div class="big" id="kasaSolana">—</div>
+      <div class="sub">SUMMIT, NUTX, IBRL + 5K token</div>
+    </div>
+    <div class="card">
+      <div class="label">Wombat Exchange</div>
+      <div class="big" id="kasaWombat">—</div>
+      <div class="sub">BNB Chain — 513 ETH</div>
+    </div>
+  </div>
+  <div class="grid" style="margin-top:0">
+    <div class="card">
+      <div class="label">SPECTRA Hesabı</div>
+      <div class="big" id="kasaSpectra">—</div>
+      <div class="sub">Base zinciri</div>
+    </div>
+    <div class="card">
+      <div class="label">Multi-Chain Varlıklar</div>
+      <div class="big" id="kasaMultichain">—</div>
+      <div class="sub">14 zincir genelinde</div>
+    </div>
+    <div class="card">
+      <div class="label">xixi Hesabı</div>
+      <div class="big" id="kasaXixi">—</div>
+      <div class="sub">27+ zincir, 40+ DeFi</div>
+    </div>
+    <div class="card">
+      <div class="label">DeFi Pozisyonları</div>
+      <div class="big" id="kasaDefi">—</div>
+      <div class="sub">Ana cüzdan protokolleri</div>
+    </div>
+  </div>
+
+  <div class="kasa-section">
+    <div class="spectra-card">
+      <div class="spectra-header">
+        <div class="spectra-title">SPECTRA — Spectra Protocol (Base)</div>
+        <div class="spectra-val" id="spectraVal">—</div>
+      </div>
+      <div id="spectraTransfers" style="font-size:12px;color:var(--text-dim)">Yükleniyor…</div>
+    </div>
+
+    <div class="kasa-card" style="margin-bottom:16px;background:linear-gradient(135deg,#1a2e1a,#2a3e1a);border:1px solid #00e676">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-size:16px;font-weight:700;color:#69f0ae">Solana Cüzdanı</div>
+        <div class="big" id="solanaVal" style="font-size:20px">—</div>
+      </div>
+      <div id="solanaTokens" style="font-size:12px">Yükleniyor…</div>
+    </div>
+
+    <div class="kasa-card" style="margin-bottom:16px;background:linear-gradient(135deg,#2e2a1a,#3e2a1a);border:1px solid #ff9100">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-size:16px;font-weight:700;color:#ffab40">Binance-Peg ETH — $72.8M</div>
+        <div class="big" id="binanceVal" style="font-size:20px">—</div>
+      </div>
+      <div id="binanceTokens" style="font-size:12px">Yükleniyor…</div>
+    </div>
+
+    <div class="kasa-card" style="margin-bottom:16px;background:linear-gradient(135deg,#1a1a2e,#1a2e2e);border:1px solid #00d2ff">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-size:16px;font-weight:700;color:#00d2ff">xixi — 40+ DeFi Protokolü</div>
+        <div class="big" id="xixiVal" style="font-size:20px">—</div>
+      </div>
+      <div id="xixiChains" style="font-size:12px;margin-bottom:8px">Yükleniyor…</div>
+      <div id="xixiDefi" style="font-size:12px">Yükleniyor…</div>
+    </div>
+
+    <div class="kasa-grid">
+      <div class="kasa-card">
+        <div class="k-label">Zincir Dağılımı (Ana Cüzdan)</div>
+        <div id="chainBars" style="margin-top:8px">Yükleniyor…</div>
+      </div>
+      <div class="kasa-card">
+        <div class="k-label">DeFi Pozisyonları (Ana Cüzdan)</div>
+        <div id="defiList" style="margin-top:8px">Yükleniyor…</div>
+      </div>
+    </div>
+
+    <div class="kasa-card" style="margin-bottom:24px">
+      <div class="k-label">Kayıtlı Cüzdanlar</div>
+      <div id="walletList" style="margin-top:8px">Yükleniyor…</div>
+    </div>
+
+    <div class="kasa-card">
+      <div class="k-label">Takip Edilen Cüzdanlar</div>
+      <div id="watchedList" style="margin-top:8px">Yükleniyor…</div>
+    </div>
+  </div>
+</div>
+
+<div id="tab-portfolio" class="tab-content">
   <div class="grid">
     <div class="card">
       <div class="label">Toplam Portföy Değeri</div>
@@ -577,7 +1111,9 @@ const COLORS = [
 ];
 
 let chart = null;
+let kasaChart = null;
 let refreshTimer = null;
+let kasaLoaded = false;
 
 function fmt(n) {
   if (n >= 1000) return '$' + n.toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:0});
@@ -718,6 +1254,129 @@ function switchTab(tab) {
   document.getElementById('tab-' + tab).classList.add('active');
   document.querySelector(`.tab-btn[onclick="switchTab('${tab}')"]`).classList.add('active');
   if (tab === 'history' && !historyLoaded) loadHistory();
+  if (tab === 'kasa' && !kasaLoaded) loadKasa();
+  if (tab === 'portfolio') loadData();
+}
+
+async function loadKasa() {
+  try {
+    const res = await fetch('/api/kasa');
+    const data = await res.json();
+    kasaLoaded = true;
+    renderKasa(data);
+  } catch (err) {
+    console.error('Kasa verisi yüklenemedi:', err);
+  }
+}
+
+function renderKasa(data) {
+  const s = data.summary;
+  document.getElementById('kasaTotal').textContent = fmt(s.grand_total);
+  document.getElementById('kasaSub').textContent = data.wallets.length + ' cüzdan | Toplam Kasa';
+  document.getElementById('kasaMultichain').textContent = fmt(s.multichain_total);
+  document.getElementById('kasaDefi').textContent = fmt(s.defi_total);
+  document.getElementById('kasaSpectra').textContent = fmt(s.spectra_total);
+  document.getElementById('kasaBinance').textContent = fmt(s.binance_peg_total);
+  document.getElementById('kasaSolana').textContent = fmt(s.solana_total);
+  document.getElementById('kasaWombat').textContent = fmt(s.wombat_total);
+  document.getElementById('kasaXixi').textContent = fmt(s.xixi_total);
+
+  const sol = data.solana;
+  document.getElementById('solanaVal').textContent = fmt(sol.total_usd);
+  const solHtml = sol.tokens.map(t =>
+    `<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.1)">
+      <span style="font-weight:600">${t.symbol}</span>
+      <span style="color:var(--text-dim)">${fmtBal(t.amount)}</span>
+      <span>${fmt(t.usd)}</span>
+    </div>`
+  ).join('');
+  document.getElementById('solanaTokens').innerHTML = solHtml;
+
+  const bp = data.binance_peg;
+  document.getElementById('binanceVal').textContent = fmt(bp.total_usd);
+  const bpHtml = bp.top_tokens.map(t =>
+    `<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.1)">
+      <span style="font-weight:600">${t.symbol} <span style="font-size:10px;color:var(--text-dim)">(${t.chain})</span></span>
+      <span style="color:var(--text-dim)">${fmtBal(t.amount)}</span>
+      <span>${fmt(t.usd)}</span>
+    </div>`
+  ).join('');
+  document.getElementById('binanceTokens').innerHTML = bpHtml;
+
+  const xi = data.xixi;
+  document.getElementById('xixiVal').textContent = fmt(xi.total_usd);
+  const xiChainHtml = xi.chains.slice(0, 10).map(c =>
+    `<span style="display:inline-block;background:rgba(0,210,255,.1);border:1px solid rgba(0,210,255,.3);border-radius:6px;padding:2px 8px;margin:2px;font-size:11px">${c.name}: ${fmt(c.usd_value)}</span>`
+  ).join('') + (xi.chains.length > 10 ? `<span style="color:var(--text-dim);font-size:11px"> +${xi.chains.length - 10} zincir daha</span>` : '');
+  document.getElementById('xixiChains').innerHTML = '<div style="margin-bottom:8px;font-weight:600;font-size:13px">Zincirler:</div>' + xiChainHtml;
+  const xiDefiHtml = xi.defi_protocols.slice(0, 15).map(d =>
+    `<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(0,210,255,.1)">
+      <span style="font-weight:500">${d.protocol}</span>
+      <span>${fmt(d.usd)}</span>
+    </div>`
+  ).join('') + (xi.defi_protocols.length > 15 ? `<div style="color:var(--text-dim);padding:4px 0;font-size:11px">+${xi.defi_protocols.length - 15} protokol daha…</div>` : '');
+  document.getElementById('xixiDefi').innerHTML = '<div style="margin-top:8px;font-weight:600;font-size:13px">DeFi Pozisyonları:</div>' + xiDefiHtml;
+
+  const spectra = data.spectra;
+  document.getElementById('spectraVal').textContent = fmt(spectra.total_usd);
+  const stHtml = spectra.recent_transfers.map(t => {
+    const cls = t.direction === 'gelen' ? 'dir-in' : 'dir-out';
+    const arrow = t.direction === 'gelen' ? '↓' : '↑';
+    return `<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border)">
+      <span>${t.date}</span>
+      <span class="${cls}">${arrow} ${fmtBal(t.amount)} SPECTRA</span>
+      <span>${fmt(t.usd)}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('spectraTransfers').innerHTML = stHtml;
+
+  const mc = data.multichain;
+  const maxChain = Math.max(...mc.chains.map(c => c.usd_value));
+  const chainColors = ['#00d2ff','#7b2ff7','#00e676','#ff9100','#ff5252','#448aff','#ea80fc','#ffea00','#69f0ae','#ff6e40','#00bcd4','#e040fb','#ffc107','#8bc34a'];
+  const chainHtml = mc.chains.map((c, i) => {
+    const pct = (c.usd_value / maxChain * 100).toFixed(1);
+    return `<div class="chain-bar">
+      <span class="chain-name">${c.name}</span>
+      <div style="flex:1;background:var(--border);border-radius:3px;height:6px">
+        <div class="chain-fill" style="width:${pct}%;background:${chainColors[i % chainColors.length]}"></div>
+      </div>
+      <span class="chain-val">${fmt(c.usd_value)}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('chainBars').innerHTML = chainHtml;
+
+  const defiHtml = data.defi_positions.map(d => {
+    const posHtml = d.positions.map(p =>
+      `<div style="font-size:11px;color:var(--text-dim);margin-left:12px">${p.pool}: ${p.balance} (${fmt(p.usd)})</div>`
+    ).join('');
+    return `<div class="defi-row" style="flex-direction:column;align-items:flex-start">
+      <div style="display:flex;justify-content:space-between;width:100%">
+        <span><span class="defi-proto">${d.protocol}</span><span class="defi-chain">${d.chain}</span></span>
+        <span class="defi-val">${fmt(d.usd_value)}</span>
+      </div>
+      ${posHtml}
+    </div>`;
+  }).join('');
+  document.getElementById('defiList').innerHTML = defiHtml;
+
+  const walletHtml = data.wallets.map(w => {
+    const short = w.address.slice(0,6) + '…' + w.address.slice(-4);
+    return `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">
+      <span style="font-weight:600">${w.label}</span>
+      <span style="color:var(--text-dim)">${w.chain}</span>
+      <a href="https://etherscan.io/address/${w.address}" target="_blank" style="font-family:monospace;font-size:12px">${short}</a>
+    </div>`;
+  }).join('');
+  document.getElementById('walletList').innerHTML = walletHtml;
+
+  const watchHtml = data.watched_wallets.map(w =>
+    `<div class="watched-row">
+      <span class="watched-label">${w.label}</span>
+      <span class="watched-tokens">${w.top_tokens}</span>
+      <span class="watched-val">${fmt(w.usd_value)}</span>
+    </div>`
+  ).join('');
+  document.getElementById('watchedList').innerHTML = watchHtml;
 }
 
 function shortAddr(a) {
@@ -792,6 +1451,7 @@ function renderHistory(txs) {
   }).join('');
 }
 
+loadKasa();
 loadData();
 refreshTimer = setInterval(loadData, 60000);
 </script>
