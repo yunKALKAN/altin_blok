@@ -375,6 +375,43 @@ IZLENEN_TOTAL = sum(w["usd"] for w in IZLENEN)
 GRAND_TOTAL_WITH_WATCHED = GRAND_TOTAL + IZLENEN_TOTAL
 
 
+# ═══════════════════════════════════════════════════════════════
+# MZC TOKEN — MucizeCoin Bilgileri
+# ═══════════════════════════════════════════════════════════════
+MZC_TOKEN = {
+    "ad": "MucizeCoin",
+    "sembol": "MZC",
+    "standart": "ERC-20",
+    "toplam_arz": 1_000_000_000,
+    "baslangic_fiyat": 0.01,
+    "fdv": 10_000_000,
+    "decimals": 18,
+    "zincirler": ["Ethereum", "BNB Chain", "Base", "HyperEVM"],
+    "dex": {
+        "Ethereum": "Uniswap V3",
+        "BNB Chain": "PancakeSwap",
+        "Base": "Aerodrome",
+        "HyperEVM": "HyperSwap",
+    },
+    "kontrat_adresleri": {
+        "Ethereum": "Deploy sonrasi eklenecek",
+        "BNB Chain": "Deploy sonrasi eklenecek",
+        "Base": "Deploy sonrasi eklenecek",
+        "HyperEVM": "Deploy sonrasi eklenecek",
+    },
+    "tokenomics": [
+        {"dilim": "Ekosistem & Topluluk", "oran": 30, "miktar": 300_000_000, "kilit": "12 ay vesting"},
+        {"dilim": "Takim & Kurucu",       "oran": 20, "miktar": 200_000_000, "kilit": "6 ay cliff + 18 ay vesting"},
+        {"dilim": "Likidite Havuzu",       "oran": 15, "miktar": 150_000_000, "kilit": "Kilitli (LP yakilir)"},
+        {"dilim": "Yatirimci / Presale",   "oran": 15, "miktar": 150_000_000, "kilit": "3 ay cliff + 12 ay vesting"},
+        {"dilim": "Hazine (Treasury)",     "oran": 10, "miktar": 100_000_000, "kilit": "Multi-sig, DAO onayli"},
+        {"dilim": "Pazarlama & Airdrop",   "oran": 5,  "miktar": 50_000_000,  "kilit": "Ilk 6 ayda dagitilir"},
+        {"dilim": "Danismanlar",           "oran": 3,  "miktar": 30_000_000,  "kilit": "6 ay cliff + 12 ay vesting"},
+        {"dilim": "Reserve",               "oran": 2,  "miktar": 20_000_000,  "kilit": "Acil durum fonu"},
+    ],
+}
+
+
 def fmt(n):
     """$1,234,567 formatı"""
     if n >= 1_000_000_000:
@@ -465,6 +502,26 @@ def print_terminal():
     print(f"{'━'*W}")
     for w in IZLENEN:
         print(f"    {w['label']:<25} {fmt(w['usd']):>12}  {w['detail']}")
+
+    # MZC Token Bilgileri
+    print(f"\n{'━'*W}")
+    print(f"  MZC TOKEN — MucizeCoin")
+    print(f"{'━'*W}")
+    print(f"    Token          : {MZC_TOKEN['ad']} ({MZC_TOKEN['sembol']})")
+    print(f"    Standart       : {MZC_TOKEN['standart']}")
+    print(f"    Toplam Arz     : {MZC_TOKEN['toplam_arz']:,.0f} MZC")
+    print(f"    Baslangic Fiyat: ${MZC_TOKEN['baslangic_fiyat']}")
+    print(f"    FDV            : {fmt(MZC_TOKEN['fdv'])}")
+    print(f"    Zincirler      : {', '.join(MZC_TOKEN['zincirler'])}")
+    print(f"\n    Tokenomics:")
+    for t in MZC_TOKEN["tokenomics"]:
+        print(f"      {t['dilim']:<25} {t['oran']:>3}%  {t['miktar']:>15,.0f} MZC  {t['kilit']}")
+    print(f"\n    DEX Listeleme:")
+    for chain, dex in MZC_TOKEN["dex"].items():
+        print(f"      {chain:<15} → {dex}")
+    print(f"\n    Kontrat Adresleri:")
+    for chain, addr in MZC_TOKEN["kontrat_adresleri"].items():
+        print(f"      {chain:<15} : {addr}")
 
     # Final
     print(f"\n╔{line}╗")
@@ -620,6 +677,27 @@ tr:hover {{ background:#111122; }}
     {watched_html}
 </div>
 
+<div class="kasa-card" style="border-left:4px solid #ffd740; margin-top:32px;">
+    <h2 style="color:#ffd740;">MZC TOKEN — MucizeCoin</h2>
+    <table>
+        <tr><td style="color:#888">Token</td><td>{MZC_TOKEN['ad']} ({MZC_TOKEN['sembol']})</td></tr>
+        <tr><td style="color:#888">Standart</td><td>{MZC_TOKEN['standart']}</td></tr>
+        <tr><td style="color:#888">Toplam Arz</td><td>{MZC_TOKEN['toplam_arz']:,.0f} MZC</td></tr>
+        <tr><td style="color:#888">Baslangic Fiyat</td><td>${MZC_TOKEN['baslangic_fiyat']}</td></tr>
+        <tr><td style="color:#888">FDV</td><td>{fmt(MZC_TOKEN['fdv'])}</td></tr>
+        <tr><td style="color:#888">Zincirler</td><td>{', '.join(MZC_TOKEN['zincirler'])}</td></tr>
+    </table>
+    <h3 style="color:#ffd740;margin-top:16px;">Tokenomics</h3>
+    <table>
+        <tr style="color:#ffd740"><th>Dilim</th><th>Oran</th><th>Miktar</th><th>Kilit</th></tr>
+        {''.join(f"<tr><td>{t['dilim']}</td><td>{t['oran']}%</td><td>{t['miktar']:,.0f}</td><td style='color:#888'>{t['kilit']}</td></tr>" for t in MZC_TOKEN['tokenomics'])}
+    </table>
+    <h3 style="color:#ffd740;margin-top:16px;">DEX Listeleme</h3>
+    <table>
+        {''.join(f"<tr><td style='color:#00e5ff'>{chain}</td><td>{dex}</td></tr>" for chain, dex in MZC_TOKEN['dex'].items())}
+    </table>
+</div>
+
 <div class="footer">
     <div class="stamp">◆ MİMAR KALKAN DAMGASI ◆</div>
     <div style="margin-top:8px;color:#ccc">{MIMAR['ad']}</div>
@@ -648,6 +726,7 @@ def generate_json():
         "kasalar": KASALAR,
         "izlenen_cuzdanlar": IZLENEN,
         "izlenen_total": IZLENEN_TOTAL,
+        "mzc_token": MZC_TOKEN,
     }, indent=2, ensure_ascii=False)
 
 

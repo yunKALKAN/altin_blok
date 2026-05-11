@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MucizeCoin (MZC) — Whitepaper</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --border: #1e1e2e;
+      --gold: #ffd740;
+      --text: #e0e0e0;
+      --text-muted: #888;
+      --accent: #00e5ff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg); color: var(--text);
+      line-height: 1.8;
+    }
+    .wp {
+      max-width: 800px; margin: 0 auto; padding: 3rem 2rem;
+    }
+    .wp-header {
+      text-align: center; padding: 4rem 0 3rem;
+      border-bottom: 2px solid var(--gold); margin-bottom: 3rem;
+    }
+    .wp-header h1 {
+      font-size: 2.5rem; font-weight: 900; color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .wp-header .version {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted); font-size: 0.9rem;
+    }
+    .wp-header .stamp {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--gold); font-weight: 700; font-size: 0.85rem;
+      margin-top: 1rem; letter-spacing: 1px;
+    }
+    h2 {
+      color: var(--gold); font-size: 1.5rem; font-weight: 900;
+      margin: 3rem 0 1rem; padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    h3 { color: var(--accent); font-size: 1.15rem; margin: 1.5rem 0 0.75rem; }
+    p { margin-bottom: 1rem; color: var(--text); }
+    ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+    li { margin-bottom: 0.4rem; }
+    table {
+      width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem;
+      font-size: 0.9rem;
+    }
+    th, td {
+      padding: 0.6rem 0.8rem; text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th { color: var(--gold); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; }
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--surface); padding: 0.15rem 0.4rem;
+      border-radius: 4px; font-size: 0.85rem; color: var(--accent);
+    }
+    .toc {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.5rem 2rem; margin-bottom: 2rem;
+    }
+    .toc h3 { color: var(--gold); margin-top: 0; }
+    .toc ol { list-style-type: decimal; }
+    .toc a { color: var(--text); text-decoration: none; }
+    .toc a:hover { color: var(--gold); }
+    .back-link {
+      display: inline-block; margin-bottom: 2rem; color: var(--gold);
+      text-decoration: none; font-weight: 600;
+    }
+    .back-link:hover { text-decoration: underline; }
+    .disclaimer {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.5rem; margin-top: 3rem;
+      font-size: 0.85rem; color: var(--text-muted);
+    }
+    footer {
+      text-align: center; padding: 2rem; margin-top: 3rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem; color: var(--text-muted);
+    }
+    footer .stamp {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--gold); font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+<div class="wp">
+  <a href="index.html" class="back-link">&larr; Ana Sayfa</a>
+
+  <div class="wp-header">
+    <h1>MucizeCoin (MZC)</h1>
+    <p style="font-size:1.1rem; color:var(--text);">Whitepaper</p>
+    <div class="version">v1.0 &mdash; Mayis 2026</div>
+    <div class="stamp">MIMAR KALKAN DAMGASI</div>
+  </div>
+
+  <div class="toc">
+    <h3>Icindekiler</h3>
+    <ol>
+      <li><a href="#s1">Vizyon ve Misyon</a></li>
+      <li><a href="#s2">mucizeWORK Ekosistemi</a></li>
+      <li><a href="#s3">Token Ozeti</a></li>
+      <li><a href="#s4">Tokenomics</a></li>
+      <li><a href="#s5">Teknik Mimari</a></li>
+      <li><a href="#s6">Guvenlik</a></li>
+      <li><a href="#s7">Multi-Chain Strateji</a></li>
+      <li><a href="#s8">Yol Haritasi</a></li>
+      <li><a href="#s9">Takim</a></li>
+      <li><a href="#s10">Yasal Uyari</a></li>
+    </ol>
+  </div>
+
+  <!-- 1. Vizyon -->
+  <h2 id="s1">1. Vizyon ve Misyon</h2>
+  <p>MucizeCoin (MZC), mucizeWORK ekosisteminin merkezinde yer alan bir yardimci (utility) token'dir. Ekosistem icindeki tum hizmetleri, oduллendirme mekanizmalarini ve yonetisim sureclerini tek bir dijital varlik altinda birlestirmeyi amaclar.</p>
+  <h3>Vizyon</h3>
+  <p>Merkeziyetsiz finans (DeFi), yapay zeka ve topluluk odakli is modellerini birlestiren, kuresel olcekte erisilebilir bir dijital ekonomi olusturmak.</p>
+  <h3>Misyon</h3>
+  <ul>
+    <li>mucizeWORK ekosisteminde deger transferini kolaylastirmak</li>
+    <li>Topluluk katilimini tesvik eden adil bir tokenomics modeli sunmak</li>
+    <li>Multi-chain erisim ile maksimum erisilebilirlik saglamak</li>
+    <li>Seffaf, denetlenebilir ve guvenli akilli kontratlar gelistirmek</li>
+  </ul>
+
+  <!-- 2. Ekosistem -->
+  <h2 id="s2">2. mucizeWORK Ekosistemi</h2>
+  <p>mucizeWORK, coklu dijital hizmetleri tek bir catı altinda toplayan bir ekosistemdir:</p>
+  <ul>
+    <li><strong>Speak&Go</strong> — Dil egitimi platformu</li>
+    <li><strong>mucizeXis</strong> — AI destekli PDF isleme ve RAG sistemi</li>
+    <li><strong>mucizeEPT</strong> — Coklu LLM orkestrasyon platformu</li>
+    <li><strong>Kasa Komuta Merkezi</strong> — Multi-chain cuzdan izleme</li>
+    <li><strong>MZC Token</strong> — Ekosistem yakit token'i</li>
+  </ul>
+  <p>MZC token'i, bu hizmetler arasindaki deger akisini saglayan temel birimdir. Kullanicilar MZC ile hizmet satin alabilir, staking yapabilir ve yonetisim oylamalarina katilabilir.</p>
+
+  <!-- 3. Token Ozeti -->
+  <h2 id="s3">3. Token Ozeti</h2>
+  <table>
+    <tr><th>Ozellik</th><th>Deger</th></tr>
+    <tr><td>Token Adi</td><td>MucizeCoin</td></tr>
+    <tr><td>Sembol</td><td>MZC</td></tr>
+    <tr><td>Standart</td><td>ERC-20</td></tr>
+    <tr><td>Toplam Arz</td><td>1,000,000,000 (1 Milyar)</td></tr>
+    <tr><td>Ondalik</td><td>18</td></tr>
+    <tr><td>Baslangic Fiyati</td><td>$0.01</td></tr>
+    <tr><td>FDV</td><td>$10,000,000</td></tr>
+    <tr><td>Zincirler</td><td>Ethereum, BNB Chain, Base, HyperEVM</td></tr>
+  </table>
+
+  <!-- 4. Tokenomics -->
+  <h2 id="s4">4. Tokenomics</h2>
+  <p>MZC tokenomics modeli, uzun vadeli surdurulebilirlik ve topluluk odakli buyumeyi onceliklendirir.</p>
+  <table>
+    <tr><th>Dilim</th><th>Oran</th><th>Miktar</th><th>Kilit Suresi</th></tr>
+    <tr><td>Ekosistem & Topluluk</td><td>30%</td><td>300,000,000</td><td>12 ay vesting (aylik %8.33)</td></tr>
+    <tr><td>Takim & Kurucu</td><td>20%</td><td>200,000,000</td><td>6 ay cliff + 18 ay vesting</td></tr>
+    <tr><td>Likidite Havuzu</td><td>15%</td><td>150,000,000</td><td>Kilitli (LP token yakilir)</td></tr>
+    <tr><td>Yatirimci / Presale</td><td>15%</td><td>150,000,000</td><td>3 ay cliff + 12 ay vesting</td></tr>
+    <tr><td>Hazine (Treasury)</td><td>10%</td><td>100,000,000</td><td>Multi-sig, DAO onayli</td></tr>
+    <tr><td>Pazarlama & Airdrop</td><td>5%</td><td>50,000,000</td><td>Ilk 6 ayda dagitilir</td></tr>
+    <tr><td>Danismanlar</td><td>3%</td><td>30,000,000</td><td>6 ay cliff + 12 ay vesting</td></tr>
+    <tr><td>Reserve</td><td>2%</td><td>20,000,000</td><td>Acil durum fonu</td></tr>
+  </table>
+  <h3>Vesting Mekanizmasi</h3>
+  <p>Vesting kontrati, OpenZeppelin tabanli ozel bir <code>MZCVesting.sol</code> akilli kontrati ile yonetilir. Her beneficiary (faydalanici) icin cliff suresi ve lineer vesting periyodu tanimlanir. Kontrat sahibi (multi-sig) tarafindan iptal edilebilir (revocable).</p>
+
+  <!-- 5. Teknik Mimari -->
+  <h2 id="s5">5. Teknik Mimari</h2>
+  <h3>MucizeCoin.sol</h3>
+  <ul>
+    <li><strong>ERC-20</strong> — OpenZeppelin v5 standart implementasyonu</li>
+    <li><strong>ERC20Burnable</strong> — Token yakma (deflasyonist mekanik)</li>
+    <li><strong>ERC20Permit</strong> — EIP-2612 gasless onay</li>
+    <li><strong>Ownable2Step</strong> — Guvenli iki adimli sahiplik transferi</li>
+    <li><strong>Pausable</strong> — Acil durum devre kesici</li>
+    <li><strong>Capped Mint</strong> — MAX_SUPPLY limitini asan mint engellenir</li>
+  </ul>
+  <h3>MZCVesting.sol</h3>
+  <ul>
+    <li><strong>Cliff + Lineer Vesting</strong> — Her schedule icin ayri cliff ve vesting suresi</li>
+    <li><strong>ReentrancyGuard</strong> — Yeniden giris saldirilarina karsi koruma</li>
+    <li><strong>SafeERC20</strong> — Guvenli token transferi</li>
+    <li><strong>Revocable</strong> — Owner tarafindan iptal edilebilir</li>
+  </ul>
+  <h3>Teknoloji Yigini</h3>
+  <table>
+    <tr><th>Katman</th><th>Teknoloji</th></tr>
+    <tr><td>Akilli Kontrat</td><td>Solidity 0.8.28, OpenZeppelin v5</td></tr>
+    <tr><td>Gelistirme</td><td>Hardhat, Ethers.js v6</td></tr>
+    <tr><td>Test</td><td>Mocha, Chai, Hardhat Network</td></tr>
+    <tr><td>Guvenlik</td><td>Slither, Manuel Audit</td></tr>
+    <tr><td>Deploy</td><td>Hardhat Deploy, Etherscan Verify</td></tr>
+    <tr><td>Multi-sig</td><td>Gnosis Safe</td></tr>
+  </table>
+
+  <!-- 6. Guvenlik -->
+  <h2 id="s6">6. Guvenlik</h2>
+  <ul>
+    <li><strong>Ownable2Step</strong> — Sahiplik transferi iki adimlidir, tek bir islemle ele gecirilemez</li>
+    <li><strong>ReentrancyGuard</strong> — Vesting kontratinda yeniden giris saldirilari engellenir</li>
+    <li><strong>SafeERC20</strong> — Token transferlerinde basarisizlik durumu yakalanir</li>
+    <li><strong>Pausable</strong> — Acil durumda tum transferler durdurulabilir</li>
+    <li><strong>MAX_SUPPLY Cap</strong> — Toplam arz asimi mumkun degildir</li>
+    <li><strong>Slither</strong> — Otomatik guvenlik taramasi</li>
+    <li><strong>26 Birim Test</strong> — Transfer, mint, burn, vesting, revoke, access control</li>
+  </ul>
+
+  <!-- 7. Multi-Chain -->
+  <h2 id="s7">7. Multi-Chain Strateji</h2>
+  <table>
+    <tr><th>Zincir</th><th>DEX</th><th>Neden</th></tr>
+    <tr><td>Ethereum</td><td>Uniswap V3</td><td>Ana zincir — prestij ve guvenilirlik</td></tr>
+    <tr><td>BNB Chain</td><td>PancakeSwap</td><td>Dusuk ucret, genis kullanici tabani</td></tr>
+    <tr><td>Base</td><td>Aerodrome</td><td>Coinbase ekosistemi, L2 hizi</td></tr>
+    <tr><td>HyperEVM</td><td>HyperSwap</td><td>Kasa ekosistemi uyumu</td></tr>
+  </table>
+  <p>Baslangicta her zincirde bagimsiz deploy yapilacaktir. Gelecekte LayerZero OFT veya Wormhole ile cross-chain token standartina gecis planlanmaktadir.</p>
+
+  <!-- 8. Yol Haritasi -->
+  <h2 id="s8">8. Yol Haritasi</h2>
+  <table>
+    <tr><th>Donem</th><th>Hedef</th></tr>
+    <tr><td>Q2 2026</td><td>Token deploy, DEX listeleme, website, whitepaper</td></tr>
+    <tr><td>Q3 2026</td><td>CoinGecko/CMC listeleme, CEX basvurulari, topluluk buyutme</td></tr>
+    <tr><td>Q4 2026</td><td>Staking mekanizmasi, DAO yonetisim</td></tr>
+    <tr><td>Q1 2027</td><td>Tier-2 borsa listelemeleri, cross-chain kopruleme</td></tr>
+    <tr><td>2027</td><td>mucizeWORK ekosistem tam entegrasyonu</td></tr>
+  </table>
+
+  <!-- 9. Takim -->
+  <h2 id="s9">9. Takim</h2>
+  <p><strong>Yonus KALKAN</strong> — Mimar & Kurucu</p>
+  <p>mucizeWORK Ekosistemi'nin mimarı. Blockchain, yapay zeka ve merkeziyetsiz finans alanlarinda yenilikci cozumler gelistirmektedir.</p>
+
+  <!-- 10. Disclaimer -->
+  <h2 id="s10">10. Yasal Uyari</h2>
+  <div class="disclaimer">
+    <p>Bu whitepaper yalnizca bilgilendirme amaciyla hazirlanmistir ve yatirim tavsiyesi niteliginde degildir. MucizeCoin (MZC) bir yardimci (utility) token'dir ve herhangi bir hisse senedi, tahvil veya diger menkul kiymet olarak degerlendirilmemelidir.</p>
+    <p>Kripto para birimleri yuksek risk iceren yatirimlardir. Yatirim yapmadan once kendi arastirmanizi yapin (DYOR). Yatiriminizin tamaminı kaybetme riski bulunmaktadir.</p>
+    <p>Bu dokumanda yer alan bilgiler, ozellikler ve planlar degisiklige tabidir.</p>
+  </div>
+
+  <footer>
+    <div class="stamp">MIMAR KALKAN DAMGASI</div>
+    <p>Yonus KALKAN &mdash; mucizeWORK Ekosistemi &mdash; 2026</p>
+  </footer>
+</div>
+</body>
+</html>
