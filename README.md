@@ -30,6 +30,16 @@ npx hardhat run scripts/deploy.js --network sepolia   # Testnet deploy
 ### MZC Website
 `website/` dizininde statik landing page ve whitepaper bulunur.
 
+### Mucize Chain (L2 Rollup)
+```bash
+cd mucize-chain
+chmod +x setup.sh
+./setup.sh
+# RPC:      http://localhost:8545
+# Explorer: http://localhost:4000
+# Chain ID: 481 (0x1E1)
+```
+
 ## MZC Token Özeti
 
 | Özellik | Değer |
