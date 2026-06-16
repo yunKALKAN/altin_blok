@@ -878,6 +878,63 @@ KASA_BIZYUGO = {
 }
 
 
+def _build_kasa_access_summary(
+    multichain_total: float,
+    defi_total: float,
+    spectra_total: float,
+    watched_total: float,
+    binance_peg_total: float,
+    wombat_total: float,
+    solana_total: float,
+    binance_main_total: float,
+    anon_total: float,
+    bizyugo_total: float,
+) -> dict:
+    xixi_wallet_total = KASA_XIXI["wallet_usd"]
+    xixi_defi_total = KASA_XIXI["defi_usd"]
+    wallet_transferable = multichain_total + spectra_total + xixi_wallet_total
+    defi_requires_action = defi_total + xixi_defi_total
+    actionable_total = wallet_transferable + defi_requires_action
+    watch_only_total = (
+        watched_total + binance_peg_total + wombat_total + solana_total
+        + binance_main_total + anon_total + bizyugo_total
+    )
+
+    return {
+        "is_read_only_dashboard": True,
+        "wallet_transferable_total": round(wallet_transferable, 2),
+        "defi_requires_action_total": round(defi_requires_action, 2),
+        "owned_or_actionable_total": round(actionable_total, 2),
+        "watch_only_total": round(watch_only_total, 2),
+        "not_withdrawable_reasons": [
+            "Bu panel sadece izleme/raporlama yapıyor; işlem imzalama, transfer veya withdraw API'si yok.",
+            "Binance Ana Kasa, Binance-Peg, Wombat, Solana, an0n, bizyugo ve takip listesi adresleri cüzdan kontrolü kanıtlamaz; imza yetkisi yoksa çekilemez.",
+            "Lending/staking/LP pozisyonlarında önce borç kapatma, unlock/unstake/claim ve her zincirde gas gerekir.",
+            "Kilitli pozisyonlar süre dolmadan, borçlu pozisyonlar borç kapanmadan çekilemez.",
+        ],
+        "buckets": [
+            {
+                "label": "Cüzdandan direkt transfer edilebilir",
+                "value": round(wallet_transferable, 2),
+                "detail": "Ana/multi-chain cüzdan + SPECTRA + xixi wallet bakiyesi; signer ve gas gerekir.",
+                "status": "wallet_signature_required",
+            },
+            {
+                "label": "Önce DeFi/stake çözülmeli",
+                "value": round(defi_requires_action, 2),
+                "detail": "Borç kapat, withdraw/unstake/claim yap, sonra hedef cüzdana gönder.",
+                "status": "protocol_action_required",
+            },
+            {
+                "label": "Sadece izlenen/harici görünen varlık",
+                "value": round(watch_only_total, 2),
+                "detail": "Dashboard toplamında görünür ama bu repo üzerinden çekilemez.",
+                "status": "watch_only",
+            },
+        ],
+    }
+
+
 @app.get("/api/kasa")
 async def get_kasa():
     """Consolidated vault view across all wallets and chains."""
@@ -898,6 +955,18 @@ async def get_kasa():
         + xixi_total + binance_peg_total + wombat_total + solana_total
         + binance_main_total + anon_total + bizyugo_total
     )
+    access = _build_kasa_access_summary(
+        multichain_total,
+        defi_total,
+        spectra_total,
+        watched_total,
+        binance_peg_total,
+        wombat_total,
+        solana_total,
+        binance_main_total,
+        anon_total,
+        bizyugo_total,
+    )
 
     return {
         "wallets": KASA_WALLETS,
@@ -913,6 +982,7 @@ async def get_kasa():
         "binance_main": KASA_BINANCE_MAIN,
         "anon": KASA_ANON,
         "bizyugo": KASA_BIZYUGO,
+        "access": access,
         "summary": {
             "multichain_total": round(multichain_total, 2),
             "defi_total": round(defi_total, 2),
@@ -925,6 +995,10 @@ async def get_kasa():
             "binance_main_total": round(binance_main_total, 2),
             "anon_total": round(anon_total, 2),
             "bizyugo_total": round(bizyugo_total, 2),
+            "owned_or_actionable_total": access["owned_or_actionable_total"],
+            "watch_only_total": access["watch_only_total"],
+            "wallet_transferable_total": access["wallet_transferable_total"],
+            "defi_requires_action_total": access["defi_requires_action_total"],
             "grand_total": round(grand, 2),
         },
     }
@@ -1040,6 +1114,13 @@ th:last-child{text-align:right}
 .spectra-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .spectra-title{font-size:16px;font-weight:700;color:#ea80fc}
 .spectra-val{font-size:24px;font-weight:700}
+.access-card{background:linear-gradient(135deg,#2a1608,#1f1208);border:2px solid #ff9100;border-radius:14px;padding:20px;margin-bottom:16px}
+.access-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px}
+.access-bucket{background:rgba(255,145,0,.08);border:1px solid rgba(255,145,0,.24);border-radius:12px;padding:14px}
+.access-bucket .bucket-label{font-size:12px;color:#ffcc80;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.access-bucket .bucket-value{font-size:24px;font-weight:700;color:#ffb74d}
+.access-bucket .bucket-detail{font-size:12px;color:var(--text-dim);line-height:1.5;margin-top:6px}
+.reason-list{margin:12px 0 0 18px;color:#ffcc80;font-size:13px;line-height:1.7}
 
 .history-section{padding:0 32px 32px}
 .history-table{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
@@ -1147,6 +1228,25 @@ th:last-child{text-align:right}
   </div>
 
   <div class="kasa-section">
+    <div class="access-card">
+      <div style="display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap">
+        <div>
+          <div style="font-size:18px;font-weight:700;color:#ffb74d">Çekilebilirlik Kontrolü</div>
+          <div style="font-size:13px;color:#ffcc80;margin-top:4px">
+            Bu dashboard izleme modundadır; zincir üstü işlem imzalamaz.
+          </div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px">Aksiyon alınabilir toplam</div>
+          <div class="big" id="ownedActionableTotal" style="font-size:26px;color:#ffb74d">—</div>
+        </div>
+      </div>
+      <div class="access-grid" id="accessBuckets">
+        <div class="access-bucket"><div class="bucket-detail">Yükleniyor…</div></div>
+      </div>
+      <ul class="reason-list" id="notWithdrawableReasons"></ul>
+    </div>
+
     <div class="spectra-card">
       <div class="spectra-header">
         <div class="spectra-title">SPECTRA — Spectra Protocol (Base)</div>
@@ -1649,6 +1749,7 @@ function renderKasa(data) {
   document.getElementById('kasaWombat').textContent = fmt(s.wombat_total);
   document.getElementById('kasaXixi').textContent = fmt(s.xixi_total);
   document.getElementById('kasaBinanceMain').textContent = fmt(s.binance_main_total);
+  renderAccessSummary(data.access);
 
   // Binance Ana Kasa detail
   const bm = data.binance_main;
@@ -1792,6 +1893,20 @@ function renderKasa(data) {
     </div>`
   ).join('');
   document.getElementById('watchedList').innerHTML = watchHtml;
+}
+
+function renderAccessSummary(access) {
+  document.getElementById('ownedActionableTotal').textContent = fmt(access.owned_or_actionable_total);
+  document.getElementById('accessBuckets').innerHTML = access.buckets.map(b => `
+    <div class="access-bucket">
+      <div class="bucket-label">${b.label}</div>
+      <div class="bucket-value">${fmt(b.value)}</div>
+      <div class="bucket-detail">${b.detail}</div>
+    </div>
+  `).join('');
+  document.getElementById('notWithdrawableReasons').innerHTML = access.not_withdrawable_reasons.map(r =>
+    `<li>${r}</li>`
+  ).join('');
 }
 
 function shortAddr(a) {
