@@ -1565,6 +1565,46 @@ th:last-child{text-align:right}
   </div>
 </div>
 
+<!-- MZC Token Panel -->
+<div style="padding:24px 32px;">
+  <div class="card" style="border-left:4px solid #ffd740;">
+    <div class="label" style="color:#ffd740;font-size:14px;font-weight:700;letter-spacing:2px;">MZC TOKEN — MucizeCoin</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:16px;">
+      <div><div class="label">Token</div><div style="font-size:18px;font-weight:700;">MucizeCoin (MZC)</div></div>
+      <div><div class="label">Toplam Arz</div><div style="font-size:18px;font-weight:700;">1,000,000,000</div></div>
+      <div><div class="label">Fiyat</div><div style="font-size:18px;font-weight:700;color:#ffd740;">$0.01</div></div>
+      <div><div class="label">FDV</div><div style="font-size:18px;font-weight:700;color:#00e676;">$10,000,000</div></div>
+      <div><div class="label">Standart</div><div style="font-size:18px;font-weight:700;">ERC-20</div></div>
+      <div><div class="label">Zincirler</div><div style="font-size:14px;font-weight:600;">ETH · BNB · Base · HyperEVM</div></div>
+    </div>
+    <div style="margin-top:20px;">
+      <div class="label" style="margin-bottom:8px;">Tokenomics Dagitimi</div>
+      <table>
+        <thead><tr><th style="color:#ffd740">Dilim</th><th style="color:#ffd740">Oran</th><th style="color:#ffd740;text-align:right">Miktar</th></tr></thead>
+        <tbody>
+          <tr><td>Ekosistem & Topluluk</td><td>30%</td><td style="text-align:right">300,000,000</td></tr>
+          <tr><td>Takim & Kurucu</td><td>20%</td><td style="text-align:right">200,000,000</td></tr>
+          <tr><td>Likidite Havuzu</td><td>15%</td><td style="text-align:right">150,000,000</td></tr>
+          <tr><td>Yatirimci / Presale</td><td>15%</td><td style="text-align:right">150,000,000</td></tr>
+          <tr><td>Hazine (Treasury)</td><td>10%</td><td style="text-align:right">100,000,000</td></tr>
+          <tr><td>Pazarlama & Airdrop</td><td>5%</td><td style="text-align:right">50,000,000</td></tr>
+          <tr><td>Danismanlar</td><td>3%</td><td style="text-align:right">30,000,000</td></tr>
+          <tr><td>Reserve</td><td>2%</td><td style="text-align:right">20,000,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:16px;">
+      <div class="label" style="margin-bottom:8px;">DEX Listeleme</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <span style="background:#1a3a1a;padding:4px 12px;border-radius:8px;font-size:13px;">Ethereum → Uniswap V3</span>
+        <span style="background:#1a3a1a;padding:4px 12px;border-radius:8px;font-size:13px;">BNB → PancakeSwap</span>
+        <span style="background:#1a3a1a;padding:4px 12px;border-radius:8px;font-size:13px;">Base → Aerodrome</span>
+        <span style="background:#1a3a1a;padding:4px 12px;border-radius:8px;font-size:13px;">HyperEVM → HyperSwap</span>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="footer">
   <a href="https://etherscan.io/address/0x4E83362442B8d1beC281594cea3050c8EB01311C" target="_blank">
     Etherscan'da Görüntüle ↗

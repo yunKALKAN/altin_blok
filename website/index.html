@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MucizeCoin (MZC) — mucizeWORK Ekosistemi</title>
+  <meta name="description" content="MucizeCoin (MZC) — mucizeWORK ekosisteminin resmi token'ı. 1 Milyar toplam arz, multi-chain ERC-20." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --border: #1e1e2e;
+      --gold: #ffd740;
+      --gold-dim: #b8991d;
+      --text: #e0e0e0;
+      --text-muted: #888;
+      --accent: #00e5ff;
+      --red: #ff4444;
+      --green: #00e676;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Nav */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(10,10,15,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      height: 64px;
+    }
+    .nav-logo {
+      font-weight: 900; font-size: 1.4rem; color: var(--gold);
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 2px;
+    }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--text-muted); font-size: 0.9rem; font-weight: 600;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--gold); text-decoration: none; }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 6rem 2rem 4rem;
+      background: radial-gradient(ellipse at 50% 20%, rgba(255,215,64,0.06) 0%, transparent 60%);
+    }
+    .hero-content { max-width: 700px; }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900;
+      background: linear-gradient(135deg, var(--gold), #fff, var(--gold));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    .hero .subtitle {
+      font-size: 1.15rem; color: var(--text-muted); margin-bottom: 2rem;
+      font-weight: 400;
+    }
+    .price-badge {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 100px; padding: 0.6rem 1.5rem; margin-bottom: 2rem;
+    }
+    .price-badge .price {
+      font-family: 'JetBrains Mono', monospace; font-size: 1.8rem;
+      font-weight: 700; color: var(--gold);
+    }
+    .price-badge .label { font-size: 0.8rem; color: var(--text-muted); }
+    .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.85rem 2rem; border-radius: 10px; font-weight: 700;
+      font-size: 0.95rem; transition: all .2s; cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--gold); color: #000;
+    }
+    .btn-primary:hover { background: #ffe066; text-decoration: none; }
+    .btn-outline {
+      background: transparent; border: 2px solid var(--border); color: var(--text);
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); text-decoration: none; }
+
+    /* Sections */
+    section { padding: 5rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-title {
+      font-size: 2rem; font-weight: 900; text-align: center;
+      margin-bottom: 0.5rem; color: var(--gold);
+    }
+    .section-sub {
+      text-align: center; color: var(--text-muted); margin-bottom: 3rem;
+      font-size: 1rem;
+    }
+
+    /* Stats */
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.5rem; text-align: center;
+    }
+    .stat-card .value {
+      font-family: 'JetBrains Mono', monospace; font-size: 1.6rem;
+      font-weight: 700; color: var(--gold); margin-bottom: 0.25rem;
+    }
+    .stat-card .label { font-size: 0.85rem; color: var(--text-muted); }
+
+    /* Tokenomics */
+    #tokenomics { background: var(--surface); }
+    .tokenomics-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+      align-items: center;
+    }
+    .chart-container {
+      position: relative; width: 100%; max-width: 360px;
+      margin: 0 auto; aspect-ratio: 1;
+    }
+    .chart-container canvas { width: 100% !important; height: 100% !important; }
+    .alloc-table { width: 100%; border-collapse: collapse; }
+    .alloc-table th, .alloc-table td {
+      padding: 0.6rem 0.8rem; text-align: left;
+      border-bottom: 1px solid var(--border); font-size: 0.9rem;
+    }
+    .alloc-table th { color: var(--gold); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; }
+    .dot {
+      display: inline-block; width: 10px; height: 10px;
+      border-radius: 50%; margin-right: 6px;
+    }
+
+    /* Chains */
+    .chains-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+    .chain-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.5rem;
+    }
+    .chain-card h3 { color: var(--gold); margin-bottom: 0.5rem; font-size: 1.1rem; }
+    .chain-card .dex { color: var(--accent); font-weight: 600; font-size: 0.9rem; }
+    .chain-card p { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; }
+
+    /* Roadmap */
+    .roadmap { position: relative; }
+    .roadmap::before {
+      content: ''; position: absolute; left: 50%; top: 0; bottom: 0;
+      width: 2px; background: var(--border); transform: translateX(-50%);
+    }
+    .roadmap-item {
+      position: relative; width: 45%; padding: 1.5rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; margin-bottom: 2rem;
+    }
+    .roadmap-item:nth-child(odd) { margin-left: 0; }
+    .roadmap-item:nth-child(even) { margin-left: 55%; }
+    .roadmap-item::before {
+      content: ''; position: absolute; top: 1.5rem;
+      width: 14px; height: 14px; background: var(--gold);
+      border-radius: 50%; border: 3px solid var(--bg);
+    }
+    .roadmap-item:nth-child(odd)::before { right: -32px; }
+    .roadmap-item:nth-child(even)::before { left: -32px; }
+    .roadmap-item h4 { color: var(--gold); margin-bottom: 0.25rem; font-size: 1rem; }
+    .roadmap-item p { font-size: 0.85rem; color: var(--text-muted); }
+
+    /* Contracts */
+    .contract-row {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .contract-row .chain-label {
+      font-weight: 700; min-width: 120px; color: var(--gold);
+    }
+    .contract-row code {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
+      color: var(--accent); word-break: break-all;
+    }
+
+    /* Team */
+    .team-card {
+      max-width: 500px; margin: 0 auto;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 2.5rem; text-align: center;
+    }
+    .team-card .avatar {
+      width: 100px; height: 100px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem; font-size: 2.5rem; font-weight: 900; color: #000;
+    }
+    .team-card h3 { font-size: 1.3rem; margin-bottom: 0.25rem; }
+    .team-card .role { color: var(--gold); font-weight: 600; font-size: 0.9rem; margin-bottom: 0.75rem; }
+    .team-card p { color: var(--text-muted); font-size: 0.9rem; }
+
+    /* Footer */
+    footer {
+      text-align: center; padding: 3rem 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem; color: var(--text-muted);
+    }
+    footer .stamp {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--gold); font-weight: 700; letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .tokenomics-grid { grid-template-columns: 1fr; }
+      .roadmap::before { left: 20px; }
+      .roadmap-item { width: calc(100% - 50px); margin-left: 50px !important; }
+      .roadmap-item::before { left: -38px !important; right: auto !important; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Nav -->
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-logo">MZC</div>
+      <ul class="nav-links">
+        <li><a href="#about">Hakkinda</a></li>
+        <li><a href="#tokenomics">Tokenomics</a></li>
+        <li><a href="#chains">Zincirler</a></li>
+        <li><a href="#mucize-chain">Mucize Chain</a></li>
+        <li><a href="#roadmap">Yol Haritasi</a></li>
+        <li><a href="#contracts">Kontratlar</a></li>
+        <li><a href="#team">Takim</a></li>
+        <li><a href="#whitepaper">Whitepaper</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>MucizeCoin</h1>
+      <p class="subtitle">mucizeWORK Ekosisteminin Resmi Token'i</p>
+      <div class="price-badge">
+        <div>
+          <div class="price">$0.01</div>
+          <div class="label">Baslangic Fiyati</div>
+        </div>
+      </div>
+      <div class="hero-buttons">
+        <a href="#" class="btn btn-primary">Satin Al (Uniswap)</a>
+        <a href="#whitepaper" class="btn btn-outline">Whitepaper</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title">MZC Token Ozeti</h2>
+      <p class="section-sub">mucizeWORK ekosisteminin temel yakit token'i</p>
+      <div class="stats">
+        <div class="stat-card">
+          <div class="value">1B</div>
+          <div class="label">Toplam Arz</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">$0.01</div>
+          <div class="label">Baslangic Fiyati</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">$10M</div>
+          <div class="label">FDV (Tam Seyreltilmis)</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">4</div>
+          <div class="label">Zincir (Multi-Chain)</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">ERC-20</div>
+          <div class="label">Token Standardi</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">18</div>
+          <div class="label">Ondalik (Decimals)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tokenomics -->
+  <section id="tokenomics">
+    <div class="container">
+      <h2 class="section-title">Tokenomics</h2>
+      <p class="section-sub">Adil ve seffaf dagilim modeli</p>
+      <div class="tokenomics-grid">
+        <div class="chart-container">
+          <canvas id="tokenChart"></canvas>
+        </div>
+        <div>
+          <table class="alloc-table">
+            <thead>
+              <tr><th></th><th>Dilim</th><th>Oran</th><th>Miktar</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="dot" style="background:#ffd740"></span></td><td>Ekosistem & Topluluk</td><td>30%</td><td>300M</td></tr>
+              <tr><td><span class="dot" style="background:#00e5ff"></span></td><td>Takim & Kurucu</td><td>20%</td><td>200M</td></tr>
+              <tr><td><span class="dot" style="background:#00e676"></span></td><td>Likidite Havuzu</td><td>15%</td><td>150M</td></tr>
+              <tr><td><span class="dot" style="background:#ff4444"></span></td><td>Yatirimci / Presale</td><td>15%</td><td>150M</td></tr>
+              <tr><td><span class="dot" style="background:#7c4dff"></span></td><td>Hazine (Treasury)</td><td>10%</td><td>100M</td></tr>
+              <tr><td><span class="dot" style="background:#ff6d00"></span></td><td>Pazarlama & Airdrop</td><td>5%</td><td>50M</td></tr>
+              <tr><td><span class="dot" style="background:#e040fb"></span></td><td>Danismanlar</td><td>3%</td><td>30M</td></tr>
+              <tr><td><span class="dot" style="background:#607d8b"></span></td><td>Reserve</td><td>2%</td><td>20M</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chains -->
+  <section id="chains">
+    <div class="container">
+      <h2 class="section-title">Multi-Chain Strateji</h2>
+      <p class="section-sub">4 zincirde es zamanli erisim</p>
+      <div class="chains-grid">
+        <div class="chain-card">
+          <h3>Ethereum</h3>
+          <div class="dex">Uniswap V3</div>
+          <p>Ana zincir. Prestij, guvenilirlik ve kurumsal yatirimci tercihi.</p>
+        </div>
+        <div class="chain-card">
+          <h3>BNB Chain</h3>
+          <div class="dex">PancakeSwap</div>
+          <p>Dusuk islem ucreti, genis kullanici tabani.</p>
+        </div>
+        <div class="chain-card">
+          <h3>Base</h3>
+          <div class="dex">Aerodrome</div>
+          <p>Coinbase ekosistemi, Layer-2 hizi ve dusuk maliyet.</p>
+        </div>
+        <div class="chain-card">
+          <h3>HyperEVM</h3>
+          <div class="dex">HyperSwap</div>
+          <p>Kasa ekosistemi ile tam uyum.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mucize Chain -->
+  <section id="mucize-chain" style="text-align:center;">
+    <div class="container">
+      <h2 class="section-title">Mucize Chain — L2 Rollup</h2>
+      <p class="section-sub">OP Stack tabanli kendi blok zincirimiz</p>
+      <div class="chains-grid" style="margin-top:2rem;">
+        <div class="chain-card">
+          <h3 style="color:var(--gold);">Chain ID: 481</h3>
+          <div class="dex">0x1E1</div>
+          <p>EVM %100 uyumlu, 2 saniye blok suresi</p>
+        </div>
+        <div class="chain-card">
+          <h3 style="color:var(--gold);">Gas Token: MZC</h3>
+          <div class="dex">MucizeCoin</div>
+          <p>Native gas token olarak MZC kullanilir</p>
+        </div>
+        <div class="chain-card">
+          <h3 style="color:var(--gold);">Settlement</h3>
+          <div class="dex">Ethereum L1</div>
+          <p>Ethereum uzerinde guvence, OP Stack altyapisi</p>
+        </div>
+        <div class="chain-card">
+          <h3 style="color:var(--gold);">Explorer</h3>
+          <div class="dex">Blockscout</div>
+          <p>Tam donanımlı blok explorer ile seffaflik</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Roadmap -->
+  <section id="roadmap">
+    <div class="container">
+      <h2 class="section-title">Yol Haritasi</h2>
+      <p class="section-sub">MZC'nin gelecek vizyonu</p>
+      <div class="roadmap">
+        <div class="roadmap-item">
+          <h4>Q2 2026 — Lansman</h4>
+          <p>Token deploy (4 zincir), DEX listeleme, likidite havuzu, website ve whitepaper yayini.</p>
+        </div>
+        <div class="roadmap-item">
+          <h4>Q3 2026 — Buyume</h4>
+          <p>CoinGecko/CMC listeleme, CEX basvurulari (MEXC, Gate.io, Bitget), topluluk buyutme.</p>
+        </div>
+        <div class="roadmap-item">
+          <h4>Q4 2026 — Staking & Governance</h4>
+          <p>Staking mekanizmasi, DAO yonetisim, mucizeWORK ekosistem entegrasyonu.</p>
+        </div>
+        <div class="roadmap-item">
+          <h4>2027 — Ekosistem Genislemesi</h4>
+          <p>Tier-2 borsa listelemeleri, cross-chain kopruleme, mucizeWORK tam entegrasyon.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contracts -->
+  <section id="contracts">
+    <div class="container">
+      <h2 class="section-title">Kontrat Adresleri</h2>
+      <p class="section-sub">Dogrulanmis akilli kontratlar</p>
+      <div class="contract-row">
+        <span class="chain-label">Ethereum</span>
+        <code>Deploy sonrasi eklenecek</code>
+      </div>
+      <div class="contract-row">
+        <span class="chain-label">BNB Chain</span>
+        <code>Deploy sonrasi eklenecek</code>
+      </div>
+      <div class="contract-row">
+        <span class="chain-label">Base</span>
+        <code>Deploy sonrasi eklenecek</code>
+      </div>
+      <div class="contract-row">
+        <span class="chain-label">HyperEVM</span>
+        <code>Deploy sonrasi eklenecek</code>
+      </div>
+      <div class="contract-row">
+        <span class="chain-label" style="background:var(--gold);color:#000;">Mucize Chain (481)</span>
+        <code>Native gas token — deploy sonrasi eklenecek</code>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section id="team">
+    <div class="container">
+      <h2 class="section-title">Takim</h2>
+      <p class="section-sub">mucizeWORK ekosisteminin arkasindaki vizyon</p>
+      <div class="team-card">
+        <div class="avatar">YK</div>
+        <h3>Yonus KALKAN</h3>
+        <div class="role">Mimar & Kurucu</div>
+        <p>mucizeWORK Ekosistemi'nin mimarı. Blockchain, yapay zeka ve merkeziyetsiz finans alanlarinda yenilikci cozumler gelistirmektedir.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Whitepaper -->
+  <section id="whitepaper" style="text-align:center;">
+    <div class="container">
+      <h2 class="section-title">Whitepaper</h2>
+      <p class="section-sub">MucizeCoin teknik dokumani</p>
+      <a href="whitepaper.html" class="btn btn-primary" style="font-size:1.1rem; padding:1rem 3rem;">
+        Whitepaper'i Oku
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="stamp">MIMAR KALKAN DAMGASI</div>
+    <p>Yonus KALKAN &mdash; mucizeWORK Ekosistemi &mdash; 2026</p>
+    <p style="margin-top:0.5rem;">MucizeCoin (MZC) bir yardimci token'dir. Yatirim tavsiyesi degildir.</p>
+  </footer>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  <script>
+    const ctx = document.getElementById('tokenChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: [
+          'Ekosistem & Topluluk (30%)',
+          'Takim & Kurucu (20%)',
+          'Likidite Havuzu (15%)',
+          'Yatirimci / Presale (15%)',
+          'Hazine (10%)',
+          'Pazarlama & Airdrop (5%)',
+          'Danismanlar (3%)',
+          'Reserve (2%)'
+        ],
+        datasets: [{
+          data: [30, 20, 15, 15, 10, 5, 3, 2],
+          backgroundColor: [
+            '#ffd740', '#00e5ff', '#00e676', '#ff4444',
+            '#7c4dff', '#ff6d00', '#e040fb', '#607d8b'
+          ],
+          borderWidth: 0,
+          hoverOffset: 8,
+        }]
+      },
+      options: {
+        cutout: '55%',
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#1a1a2e',
+            titleColor: '#ffd740',
+            bodyColor: '#e0e0e0',
+            borderColor: '#2a2a3e',
+            borderWidth: 1,
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
